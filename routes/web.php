@@ -18,10 +18,8 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 */
 
 
-Route::middleware(['guest'])->group(function () {
-    Route::get('/', function () {
-        return view('dashboard');
-    })->name('dashboard');
+Route::get('/', function () {
+    return redirect()->route('dashboard');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {

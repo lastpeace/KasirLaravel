@@ -74,13 +74,14 @@
                             </x-primary-button>
                         </div>
                     </form>
-                    <div class="mt-5 text-center">atau masuk dengan</div>
-                    <img loading="lazy"
+                    <div class="mt-5 text-center">Silahkan Login/Daftar</div>
+                    {{-- <img loading="lazy"
                         srcset="https://cdn.builder.io/api/v1/image/assets/TEMP/9188d41af969aaddd6d33062df4cf9decf4f6fafce62a931bb0ddfce6031eb9b?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/9188d41af969aaddd6d33062df4cf9decf4f6fafce62a931bb0ddfce6031eb9b?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/9188d41af969aaddd6d33062df4cf9decf4f6fafce62a931bb0ddfce6031eb9b?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/9188d41af969aaddd6d33062df4cf9decf4f6fafce62a931bb0ddfce6031eb9b?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/9188d41af969aaddd6d33062df4cf9decf4f6fafce62a931bb0ddfce6031eb9b?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/9188d41af969aaddd6d33062df4cf9decf4f6fafce62a931bb0ddfce6031eb9b?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/9188d41af969aaddd6d33062df4cf9decf4f6fafce62a931bb0ddfce6031eb9b?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/9188d41af969aaddd6d33062df4cf9decf4f6fafce62a931bb0ddfce6031eb9b?apiKey=bb6773fa61624e21adc05bfe1a2741a5&"
-                        class="mt-4 rounded-full border border-solid aspect-square border-neutral-400 stroke-[1px] w-[60px]" />
+                        class="mt-4 rounded-full border border-solid aspect-square border-neutral-400 stroke-[1px] w-[60px]" /> --}}
                     <div class="mt-4 text-indigo-700 underline">
-                        Belum punya akun?
-                        <span class="font-medium text-indigo-700 underline">Daftar</span>
+                        <a href="{{ route('register') }}" class="">Belum
+                            Punya Akun?</a>
+                        <a class="font-medium text-indigo-700 underline" href="{{ route('register') }}">Daftar</a>
                     </div>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 <x-guest-layout>
     <div class="pl-14 bg-indigo-700 max-md:pl-5">
         <div class="flex gap-5 max-md:flex-col max-md:gap-0">
-            <div class="flex flex-col w-[41%] max-md:ml-0 max-md:w-full">
+            <div class="flex flex-col w-[40%] max-md:ml-0 max-md:w-full">
                 <div class="flex flex-col text-right text-white max-md:mt-10 max-md:max-w-full">
                     <img loading="lazy"
                         srcset="https://cdn.builder.io/api/v1/image/assets/TEMP/a65a80bb9101c7189a5341ba1cd97d309100982f74bf0d0f2e46fea157d18165?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/a65a80bb9101c7189a5341ba1cd97d309100982f74bf0d0f2e46fea157d18165?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/a65a80bb9101c7189a5341ba1cd97d309100982f74bf0d0f2e46fea157d18165?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/a65a80bb9101c7189a5341ba1cd97d309100982f74bf0d0f2e46fea157d18165?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/a65a80bb9101c7189a5341ba1cd97d309100982f74bf0d0f2e46fea157d18165?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/a65a80bb9101c7189a5341ba1cd97d309100982f74bf0d0f2e46fea157d18165?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/a65a80bb9101c7189a5341ba1cd97d309100982f74bf0d0f2e46fea157d18165?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/a65a80bb9101c7189a5341ba1cd97d309100982f74bf0d0f2e46fea157d18165?apiKey=bb6773fa61624e21adc05bfe1a2741a5&"
@@ -18,7 +18,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex flex-col ml-5 w-[59%] max-md:ml-0 max-md:w-full">
+            <div class="flex flex-col ml-5 w-[60%] max-md:ml-0 max-md:w-full">
                 <div
                     class="flex flex-col grow items-center p-20 w-full text-lg font-light text-black bg-white rounded-[75px_0px_0px_75px] max-md:px-5 max-md:mt-10 max-md:max-w-full">
                     <img loading="lazy"

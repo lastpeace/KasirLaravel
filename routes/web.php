@@ -4,8 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
-
-use app\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,22 +39,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     // Route for product index
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-
     // Route for showing a specific product
     Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
-
     // Route for creating a product
     Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
-
     // Route for storing a new product
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
-
     // Route for editing a product
     Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
-
     // Route for updating a product
     Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
-
     // Route for deleting a product
     Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
 });

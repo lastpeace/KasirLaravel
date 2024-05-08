@@ -22,7 +22,8 @@ use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {
     return view('dashboard');
-});
+})->name('dashboard');
+
 Route::get('/login', function () {
     return view('auth.login');
 });
@@ -54,6 +55,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Route for deleting a product
     Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
 });
+
+
+Route::middleware('auth')->group(function () {
+    Route::resource('orders', 'App\Http\Controllers\OrderController');
+    Route::resource('reservations', 'App\Http\Controllers\ReservationController');
+    Route::resource('tables', 'App\Http\Controllers\TableController');
+    Route::get('/konfirmasi', 'App\Http\Controllers\ReservationController@konfirmasi')->name('konfirmasi');
+    Route::post('/konfirmasi', 'App\Http\Controllers\ReservationController@store')->name('konfirmasi.store');
+
+});
+
+
+
+
+
 
 Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');

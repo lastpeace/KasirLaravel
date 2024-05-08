@@ -17,7 +17,7 @@
                         </div>
                         <div
                             class="justify-center self-start px-7 py-6 mt-10 font-semibold text-white bg-black rounded-[50px] max-md:px-5">
-                            Reservasi Sekarang
+                            <a href="{{ route('orders.create') }}">Reservasi Sekarang</a>
                         </div>
                     </div>
                 </div>

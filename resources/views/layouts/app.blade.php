@@ -41,7 +41,7 @@
 @if (Auth::check())
     <form method="POST" action="{{ route('logout') }}">
         @csrf
-        <a href="#" onclick="event.preventDefault(); this.closest('form').submit();">Logout</a>
+        <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" hidden>Logout</a>
     </form>
 @endif
 

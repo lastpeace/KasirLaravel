@@ -21,12 +21,21 @@
                 </div>
             </div>
             <div class="flex flex-col ml-5 w-[60%] max-md:ml-0 max-md:w-full">
+                <div>
+
+                </div>
                 <div
                     class="flex flex-col grow items-center p-20 w-full text-lg font-light text-black bg-white rounded-[75px_0px_0px_75px] max-md:px-5 max-md:mt-10 max-md:max-w-full">
-                    <img loading="lazy"
-                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/af51dd739328d36a1d7d75e145377ef1eaae1de2603e9d0e86529e17f182ea68?apiKey=bb6773fa61624e21adc05bfe1a2741a5&"
-                        class="self-start mt-9 border-black border-solid aspect-[0.56] border-[3px] stroke-[2.5px] stroke-black w-[13px] max-md:ml-2" />
                     <div class="self-start mt-18 ml-20 text-3xl font-semibold max-md:mt-10 max-md:ml-2.5">
+                        <button onclick="window.location.href = '{{ route('login') }}';"
+                            class="flex items-center bg-transparent border-none outline-none focus:outline-none">
+                            <svg class="w-6 h-6 text-gray-800 mb-10" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="M7 1 1.3 6.326a.91.91 0 0 0 0 1.348L7 13"></path>
+                            </svg>
+                        </button>
+
                         Buat Akun
                     </div>
                     <form method="POST" action="{{ route('register') }}">

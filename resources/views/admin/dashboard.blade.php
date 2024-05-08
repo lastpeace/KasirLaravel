@@ -269,7 +269,4 @@
             © 2024 Mono Cafe. Hak Cipta Dilindungi Undang-Undang.
         </div>
     </div>
-    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-        @csrf
-    </form>
 @endsection

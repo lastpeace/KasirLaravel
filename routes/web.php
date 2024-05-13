@@ -27,6 +27,9 @@ Route::get('/', function () {
 Route::get('/login', function () {
     return view('auth.login');
 });
+
+
+
 Route::middleware(['auth', 'verified'])->group(function () {
     // Route for admin dashboard
     Route::get('/admin/dashboard', function () {
@@ -75,4 +78,5 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
 require __DIR__ . '/auth.php';
-Route::post('/register', [RegisteredUserController::class, 'register'])->name('register');
+Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
+Route::post('/register', [RegisteredUserController::class, 'store']);

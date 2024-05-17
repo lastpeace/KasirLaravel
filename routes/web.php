@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReservationController;
 use App\Models\Reservation;
 
 /*
@@ -55,7 +56,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
 });
 Route::get('/admin/products', [ProductController::class, 'indexForAdmin'])->name('admin.products.index');
-
+Route::get('/admin/reservations', [ReservationController::class, 'indexForAdmin'])->name('admin.reservations.index');
 Route::middleware('auth')->group(function () {
     Route::resource('orders', 'App\Http\Controllers\OrderController');
     Route::get('/orders/create', [OrderController::class, 'create'])->name('orders.create');

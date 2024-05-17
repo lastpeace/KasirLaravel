@@ -32,7 +32,8 @@
             <div
                 class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
                 <i class="bi bi-bookmark-fill"></i>
-                <a class="text-[15px] ml-4 text-gray-200 font-bold">Reservasi</a>
+                <a class="text-[15px] ml-4 text-gray-200 font-bold"
+                    href="{{ route('admin.reservations.index') }}">Reservasi</a>
             </div>
             <div
                 class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
@@ -66,21 +67,21 @@
                     class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700">Tambah Produk</button>
             </div>
             <div class="overflow-x-auto ">
-                <table class="min-w-full mx-auto ">
+                <table id="productsTable" class="min-w-full bg-white border border-gray-200">
                     <thead>
                         <tr>
-                            <th class="px-4 py-2">id Menu</th>
-                            <th class="px-4 py-2">Nama</th>
-                            <th class="px-4 py-2">Tipe</th>
-                            <th class="px-4 py-2">Harga</th>
-                            <th class="px-4 py-2">Deskripsi</th>
-                            <th class="px-4 py-2">Status</th>
-                            <th class="px-4 py-2">Aksi</th>
+                            <th class="border px-4 py-2 text-center cursor-pointer" onclick="sortTable(0)">ID</th>
+                            <th class="border px-4 py-2 cursor-pointer" onclick="sortTable(1)">Product Name</th>
+                            <th class="border px-4 py-2 cursor-pointer" onclick="sortTable(2)">Type</th>
+                            <th class="border px-4 py-2 cursor-pointer" onclick="sortTable(3)">Price</th>
+                            <th class="border px-4 py-2 cursor-pointer" onclick="sortTable(4)">Description</th>
+                            <th class="border px-4 py-2 cursor-pointer" onclick="sortTable(5)">Status</th>
+                            <th class="border px-4 py-2">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($products as $product)
-                            <tr>
+                            <tr class="menu-item {{ strtolower($product->type) }}">
                                 <td class="border px-4 py-2 text-center">{{ $loop->iteration }}</td>
                                 <td class="border px-4 py-2">{{ $product->name }}</td>
                                 <td class="border px-4 py-2">{{ $product->type }}</td>
@@ -106,6 +107,60 @@
         </div>
     </div>
     <script>
+        function sortTable(n) {
+            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            table = document.getElementById("productsTable");
+            switching = true;
+            // Set the sorting direction to ascending:
+            dir = "asc";
+            /* Make a loop that will continue until
+            no switching has been done: */
+            while (switching) {
+                // Start by saying: no switching is done:
+                switching = false;
+                rows = table.rows;
+                /* Loop through all table rows (except the
+                first, which contains table headers): */
+                for (i = 1; i < (rows.length - 1); i++) {
+                    // Start by saying there should be no switching:
+                    shouldSwitch = false;
+                    /* Get the two elements you want to compare,
+                    one from current row and one from the next: */
+                    x = rows[i].getElementsByTagName("TD")[n];
+                    y = rows[i + 1].getElementsByTagName("TD")[n];
+                    /* Check if the two rows should switch place,
+                    based on the direction, asc or desc: */
+                    if (dir == "asc") {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            // If so, mark as a switch and break the loop:
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir == "desc") {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            // If so, mark as a switch and break the loop:
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    /* If a switch has been marked, make the switch
+                    and mark that a switch has been done: */
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    // Each time a switch is done, increase this count by 1:
+                    switchcount++;
+                } else {
+                    /* If no switching has been done AND the direction is "asc",
+                    set the direction to "desc" and run the while loop again. */
+                    if (switchcount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
+            }
+        }
         document.getElementById("semuaBtn").addEventListener("click", function() {
             document.querySelectorAll(".menu-item").forEach(function(item) {
                 item.style.display = "block";

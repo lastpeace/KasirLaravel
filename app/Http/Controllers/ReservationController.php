@@ -7,9 +7,21 @@ use App\Models\Order;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use App\Models\Table;
+use App\Models\User;
+use App\Models\Product;
 
 class ReservationController extends Controller
 {
+
+    public function indexForAdmin()
+    {
+        $reservations = Reservation::all();
+        $user = User::all();
+        $products = Product::all();
+        $orders = Order::all();
+        $payments = Payment::all();
+        return view('admin.reservations.index', compact('reservations', 'payments', 'orders', 'user'));
+    }
     public function index()
     {
         $reservations = Reservation::all();

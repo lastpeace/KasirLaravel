@@ -22,7 +22,7 @@
                                     <p>Tentang Kami</p>
                                 </div>
                                 <div class="w-[40%]">
-                                    <p>Kontak</p>
+                                    <a href="#kontak">Kontak</a>
                                 </div>
                             </div>
                         </div>
@@ -57,7 +57,7 @@
                                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 ">Profile</a>
                                 </li>
                                 <li>
-                                    <a href="#"
+                                    <a href="{{ route('reservations.index') }}"
                                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 ">Reservasi
                                         Saya</a>
                                 </li>

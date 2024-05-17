@@ -5,8 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\PaymentController;
-
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Models\Reservation;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,15 +58,24 @@ Route::get('/admin/products', [ProductController::class, 'indexForAdmin'])->name
 
 Route::middleware('auth')->group(function () {
     Route::resource('orders', 'App\Http\Controllers\OrderController');
+    Route::get('/orders/create', [OrderController::class, 'create'])->name('orders.create');
+    Route::post('/orders/store', [OrderController::class, 'store'])->name('orders.store');
     Route::resource('reservations', 'App\Http\Controllers\ReservationController');
     Route::resource('tables', 'App\Http\Controllers\TableController');
-    Route::post('/payment/store', [PaymentController::class, 'store'])->name('payment.store');
-    Route::get('/payment/create', [PaymentController::class, 'create'])->name('payment.create');
-    Route::get('/payment/create', [PaymentController::class, 'showPayment'])->name('payment.create');
-
 });
 
+Route::middleware('auth')->group(function () {
+    Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
+    Route::get('/payments/create/{reservationId}', [PaymentController::class, 'create'])->name('payments.create');
+    Route::post('/payments/store/{reservationId}', [PaymentController::class, 'store'])->name('payments.store');
+    Route::get('/payments/{payment}', [PaymentController::class, 'show'])->name('payments.show');
+    Route::get('/payments/{payment}/edit', [PaymentController::class, 'edit'])->name('payments.edit');
+    Route::put('/payments/{payment}', [PaymentController::class, 'update'])->name('payments.update');
+    Route::delete('/payments/{payment}', [PaymentController::class, 'destroy'])->name('payments.destroy');
+    Route::get('/payments/create/{reservationId}', [PaymentController::class, 'createPayment'])->name('payments.create');
+    Route::post('/payments/store/{reservationId}', [PaymentController::class, 'storePayment'])->name('payments.store');
 
+});
 
 
 

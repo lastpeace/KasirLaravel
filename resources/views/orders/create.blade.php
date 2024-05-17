@@ -1,8 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="flex">
-        <div class="flex justify-between items-center flex-col md:flex-row">
+    <div class=" text-2xl font-semibold px-4 py-4">Menu</div>
+    <div class="grid">
+        <div class=" items-center col-span-1">
             <button id="semuaBtn"
                 class="w-[69px] md:w-[142px] h-[19.54px] md:h-[42.17px] bg-black text-white rounded-[50px] mb-2 md:mb-0">Semua</button>
             <button id="minumanBtn"
@@ -12,10 +13,12 @@
             <button id="snackBtn"
                 class="w-[47px] md:w-[142px] h-[19.54px] md:h-[42.17px] bg-gray-200 text-zinc-600 rounded-[50px] mb-2 md:mb-0">Snack</button>
         </div>
-    </div>
 
-    <div class="flex mt-9">
-        <div class="flex flex-col gap-5 max-md:flex-col max-md:gap-0">
+
+    </div>
+    <!-- Menu Kiri -->
+    <div class="container flex mt-9">
+        <div class="flex flex-col gap-5 max-md:flex-col max-md:gap-0 px-10">
             @php $rowCount = ceil($products->count() / 3); @endphp
             @for ($i = 0; $i < $rowCount; $i++)
                 <div class="flex max-md:flex-row max-md:w-full gap-20">
@@ -28,10 +31,10 @@
                                         class="self-center aspect-square w-[180px]" />
                                     <div class="mt-3 text-base font-medium max-md:mr-2.5">{{ $product->name }}</div>
                                     <div class="mt-2.5 font-light">{{ $product->price }}</div>
-                                    <div onclick="addToCart('{{ $product->name }}', {{ $product->price }})"
-                                        class="justify-center px-12 py-3 mt-5 text-center text-white whitespace-nowrap bg-indigo-700 rounded-2xl max-md:px-5 max-md:mr-1.5 cursor-pointer">
-                                        Tambahkan
-                                    </div>
+                                    <button
+                                        onclick="addToCart({{ $product->id }}, '{{ $product->name }}', {{ $product->price }})"
+                                        class="justify-center px-12 py-3 mt-5 text-center text-white whitespace-nowrap bg-indigo-700 rounded-2xl max-md:px-5 max-md:mr-1.5 cursor-pointer">Tambahkan
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -39,45 +42,22 @@
                 </div>
             @endfor
         </div>
-
+        <!-- Keranjang Belanja Kanan -->
         <div
-            class="flex w-[40%] flex-col px-7 py-6 text-black bg-white rounded-lg border border-solid border-neutral-400 max-md:px-5 ">
-            <div class="text-xl font-medium mb-4">Keranjang Belanja</div>
+            class="container cart flex w-[40%] flex-col px-7 py-6 text-black bg-white rounded-lg border border-solid border-neutral-400 ">
+            <div class="flex text-xl font-medium">Keranjang</div>
             <div id="cart-items">
-                @if (session('cart'))
-                    @php
-                        $totalPrice = 0;
-                    @endphp
-                    @foreach (session('cart') as $index => $item)
-                        @php
-                            $totalItemPrice = $item['price'] * $item['quantity'];
-                            $totalPrice += $totalItemPrice;
-                        @endphp
-                        <div class="flex justify-between items-center mb-2">
-                            <div>{{ $item['name'] }}</div>
-                            <div>{{ $item['price'] }} {{ $item['quantity'] }} = {{ $totalItemPrice }}</div>
-                            <div>
-                                <input type="number" value="{{ $item['quantity'] }}"
-                                    onchange="updateQuantity({{ $index }}, this.value)">
-                            </div>
-                        </div>
-                    @endforeach
-                    <div class="text-xl mt-4">Total: {{ $totalPrice }}</div>
-                @else
-                    <div>Keranjang belanja kosong</div>
-                @endif
             </div>
-        </div>
-        <div>
-            <form id="orderForm" method="POST" action="{{ route('orders.store') }}">
+            <form id="order-form" action="{{ route('orders.store') }}" method="POST">
                 @csrf
-                <input type="hidden" name="cart" id="cartInput" value="">
-                <button type="submit" id="continueToReservation"
-                    class="px-6 py-3 mt-5 text-white bg-indigo-700 rounded-lg">Lanjutkan ke Reservasi</button>
+                <input type="hidden" name="cart" id="cartInput">
+                <button type="submit" class="px-6 py-3 mt-5 text-white bg-indigo-700 rounded-lg">Proceed to
+                    Reservation</button>
             </form>
         </div>
     </div>
-    </div>
+
+
     <script>
         document.getElementById("semuaBtn").addEventListener("click", function() {
             document.querySelectorAll(".menu-item").forEach(function(item) {
@@ -112,110 +92,112 @@
             });
         });
 
-
-        function addToCart(itemName, itemPrice) {
-            let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
-            let existingItem = cart.find(item => item.name === itemName);
-            if (existingItem) {
-                existingItem.quantity++;
+        // Fungsi untuk menambahkan produk ke keranjang belanja
+        function addToCart(productId, productName, productPrice) {
+            let cart = getCart();
+            let existingItemIndex = cart.findIndex(item => item.product_id === productId);
+            if (existingItemIndex !== -1) {
+                cart[existingItemIndex].quantity++;
             } else {
                 cart.push({
-                    name: itemName,
-                    price: itemPrice,
+                    product_id: productId,
+                    name: productName,
+                    price: productPrice,
                     quantity: 1
                 });
             }
-            localStorage.setItem('cart', JSON.stringify(cart));
+            setCart(cart);
             updateCartDisplay();
         }
 
+        // Fungsi untuk mendapatkan keranjang dari localStorage
+        function getCart() {
+            let cart = localStorage.getItem('cart');
+            return cart ? JSON.parse(cart) : [];
+        }
+
+        // Fungsi untuk menghapus produk dari keranjang belanja berdasarkan index
         function removeFromCart(index) {
-            let cart = JSON.parse(localStorage.getItem('cart'));
+            let cart = getCart();
             cart.splice(index, 1);
-            localStorage.setItem('cart', JSON.stringify(cart));
+            setCart(cart);
             updateCartDisplay();
         }
 
-        function updateQuantity(index, newQuantity) {
-            let cart = JSON.parse(localStorage.getItem('cart'));
-            cart[index].quantity = parseInt(newQuantity);
-            if (cart[index].quantity <= 0) {
-                cart.splice(index, 1);
-            }
-            localStorage.setItem('cart', JSON.stringify(cart));
+        // Fungsi untuk menghapus produk dari keranjang belanja berdasarkan product_id
+        function removeProductFromCart(productId) {
+            let cart = getCart();
+            let updatedCart = cart.filter(item => item.product_id !== productId);
+            setCart(updatedCart);
             updateCartDisplay();
         }
 
+        // Fungsi untuk menyimpan keranjang ke localStorage
+        function setCart(cart) {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        // Fungsi untuk memperbarui tampilan keranjang belanja
         function updateCartDisplay() {
-            let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+            let cart = getCart();
             let cartItemsDiv = document.getElementById('cart-items');
             cartItemsDiv.innerHTML = '';
+
             if (cart.length > 0) {
-                let totalPrice = 0;
-                cart.forEach((item, index) => {
-                    let totalItemPrice = item.price * item.quantity;
-                    totalPrice += totalItemPrice;
+                let groupedCart = groupCartByProductName(cart);
+                let totalSemuaPrice = 0;
+
+                Object.keys(groupedCart).forEach(productName => {
+                    let totalQuantity = groupedCart[productName].reduce((acc, cur) => acc + cur.quantity, 0);
+                    let totalPrice = groupedCart[productName][0].price * totalQuantity;
+                    totalSemuaPrice += totalPrice;
+
                     let itemDiv = document.createElement('div');
                     itemDiv.innerHTML = `
-                        <img src='${item.name}'></img>
-                        <div>${item.name}
-                            <input type="number" value="${item.quantity}" onchange="updateQuantity(${index}, this.value)" readonly>${totalItemPrice}
-                            <button onclick="removeFromCart(${index})">
-                                <svg class="h-10 w-10 text-slate-900"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">
-                                    <polyline points="3 6 5 6 21 6" />  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                                    </svg>
-                            </button>
-                        </div>
-                        <div>${item.price} </div>
-                        <div>
-                        </div>
-                    `;
+                    <div>${productName}
+                        <input type="number" value="${totalQuantity}" style="width: 50px; padding: 5px;" onchange="updateQuantity('${productName}', this.value)" readonly>${totalPrice}
+                        <button onclick="removeProductFromCart(${groupedCart[productName][0].product_id})">
+                        <svg class="h-10 w-10 text-slate-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                        </svg>
+                    </button> 
+                    </div>
+                        <div>${groupedCart[productName][0].price}</div>
+                    
+                    
+                `;
                     cartItemsDiv.appendChild(itemDiv);
                 });
+
+                // Menampilkan total harga dari semua item dalam keranjang
                 let totalDiv = document.createElement('div');
-                totalDiv.textContent = `Total: ${totalPrice}`;
-                totalDiv.classList.add('text-xl', 'mt-4');
+                totalDiv.innerHTML = `
+                    <div class="text-xl mt-4">Total : ${totalSemuaPrice}</div>
+                `;
                 cartItemsDiv.appendChild(totalDiv);
             } else {
                 let emptyCartDiv = document.createElement('div');
                 emptyCartDiv.textContent = 'Keranjang belanja kosong';
                 cartItemsDiv.appendChild(emptyCartDiv);
             }
+
+
             document.getElementById('cartInput').value = JSON.stringify(cart);
         }
+
+        // Fungsi untuk mengelompokkan produk dengan nama yang sama dalam keranjang belanja
+        function groupCartByProductName(cart) {
+            return cart.reduce((acc, cur) => {
+                if (!acc[cur.name]) {
+                    acc[cur.name] = [];
+                }
+                acc[cur.name].push(cur);
+                return acc;
+            }, {});
+        }
+
+        // Memanggil fungsi updateCartDisplay saat halaman dimuat
         document.addEventListener('DOMContentLoaded', updateCartDisplay);
-
-
-        document.getElementById('continueToReservation').addEventListener('click', function(event) {
-            event.preventDefault(); // Menghentikan default behavior dari tombol submit
-
-            // Mengambil data keranjang dari local storage
-            let cart = JSON.parse(localStorage.getItem('cart'));
-
-            // Mengirim data keranjang ke server menggunakan AJAX
-            fetch('{{ route('orders.store') }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-Token': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({
-                        cart: cart
-                    })
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Gagal menyimpan data ke database');
-                    }
-                    // Hapus data keranjang dari local storage setelah berhasil disimpan
-                    localStorage.removeItem('cart');
-                    // Redirect pengguna ke halaman reservasi
-                    window.location.href = '{{ route('reservations.create') }}';
-                })
-                .catch(error => {
-                    console.error(error);
-                    alert('Terjadi kesalahan. Mohon coba lagi.');
-                });
-        });
     </script>
 @endsection

@@ -27,7 +27,7 @@
                         <div class="flex max-md:flex-row max-md:w-full">
                             @foreach ($products->skip($i * 3)->take(3) as $item)
                                 <div
-                                    class="flex flex-col w-[33%] max-md:ml-0 max-md:w-full menu-item {{ strtolower($item->type) }}">
+                                    class="flex px-20 flex-col w-[33%] max-md:ml-0 max-md:w-full menu-item {{ strtolower($item->type) }}">
                                     <div class="flex flex-col grow justify-center max-md:mt-10">
                                         <div class="px-5 py-4 bg-white rounded-2xl max-md:pl-5">
                                             <div class="flex gap-5 max-md:flex-col max-md:gap-0">

@@ -236,7 +236,7 @@
                         <div class="mt-7">Menu</div>
                         <div class="mt-7">Reservasi</div>
                         <div class="mt-7">Tentang Kami</div>
-                        <div class="mt-6">Kontak</div>
+                        <div class="mt-6"><a href="#kontak">Kontak</a></div>
                     </div>
                 </div>
                 <div class="flex flex-col ml-5 w-[44%] max-md:ml-0 max-md:w-full">

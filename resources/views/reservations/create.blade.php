@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+
 @section('content')
     <div class="flex gap-5 max-md:flex-col max-md:gap-0">
         <div class="flex flex-col w-[55%] max-md:ml-0 max-md:w-full">
@@ -18,6 +19,23 @@
                                 </button>
                             </div>
                         </div>
+                        @if ($errors->any())
+                            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+                                <strong class="font-bold">Whoops!</strong>
+                                <span class="block sm:inline">There were some problems with your input.</span>
+                                <ul class="mt-3 list-disc list-inside text-sm text-red-600">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        @if (session('success'))
+                            <div
+                                class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
+                                {{ session('success') }}
+                            </div>
+                        @endif
                         <div class=" text-2xl font-semibold px-4">Reservasi</div>
                         <form method="POST" action="{{ route('reservations.store') }}" class="mt-6 max-md:max-w-full">
                             @csrf
@@ -32,9 +50,18 @@
                                     </div>
                                 </div>
                                 <div class="w-full p-2">
+                                    <div class="">
+                                        <span class="text-red-600">User Id *</span>
+                                        <br>
+                                        <input type="text" name="user_id" id="user_id"
+                                            class="px-4 py-5 mt-1.5 rounded-lg border border-black border-solid w-full"
+                                            rows="7" cols="200" value="{{ auth()->user()->id }}" readonly />
+                                    </div>
+                                </div>
+                                <div class="w-full p-2">
                                     <span class="text-red-600">No Telpon *</span>
                                     <br>
-                                    <input type="text" name="phone"
+                                    <input type="text" name="phone_number" id="phone_number"
                                         class="px-4 py-5 mt-1.5 rounded-lg border border-black border-solid w-full"
                                         rows="7" cols="200" />
 
@@ -44,25 +71,31 @@
                                 <div class="w-1/2 p-2 max-width">
                                     <span class="text-red-600">Tanggal*</span>
                                     <br>
-                                    <input type="date" name="date"
+                                    <input type="date" name="date" id="date"
                                         class="px-4 py-5 mt-1.5 rounded-lg border border-black border-solid w-full" />
                                 </div>
                                 <div class="w-1/2 p-2">
                                     <span class="text-red-600">Jam *</span>
                                     <br>
-                                    <input type="time" name="time"
-                                        class="px-4 py-5 mt-1.5 rounded-lg border border-black border-solid w-full" />
+                                    <select name="time" id="time"
+                                        class="px-4 py-2 mt-1.5 rounded-lg border border-black border-solid w-full">
+                                        <option value="10:00">10.00 - 12.30</option>
+                                        <option value="13:00">13.00 - 15.30</option>
+                                        <option value="16:00">16.00 - 18.30</option>
+                                        <option value="19:00">19.00 - 21.30</option>
+                                    </select>
                                 </div>
                                 <div class="w-1/2 p-2">
                                     <span class="text-red-600">Jumlah Orang *</span>
                                     <br>
-                                    <input type="number" name="guests" min="0" max="10"
+                                    <input type="number" name="number_of_people" id="number_of_people" min="0"
+                                        max="11"
                                         class="px-4 py-5 mt-1.5 rounded-lg border border-black border-solid w-full" />
                                 </div>
                                 <div class="w-1/2 p-2">
                                     <span class="text-red-600">Meja *</span>
                                     <br>
-                                    <select name="table"
+                                    <select name="table_number"
                                         class="px-4 py-5 mt-1.5 rounded-lg border border-black border-solid w-full">
                                         @foreach ($tables as $table)
                                             <option value="{{ $table->id }}">{{ $table->name }}</option>
@@ -75,7 +108,7 @@
                                     <span class="">Catatan</span>
                                 </div>
                                 <div class="w-full p-2">
-                                    <textarea name="notes" rows="3"
+                                    <textarea name="notes" id="notes" rows="3"
                                         class="items-start px-3 pt-4 pb-16 mt-2 text-lg text-black bg-white rounded-lg border border-black border-solid w-full"
                                         placeholder="Tidak Ada"></textarea>
                                 </div>
@@ -84,12 +117,13 @@
                                     <span class="text-black"><span class="text-red-600">*</span>(wajib diisi)</span>
                                     <br>
                                 </div>
-                                <div class="bg-black rounded-[50px] w-[504px] w-full">
-                                    <button type="button" id="continueToReservation"
-                                        class="flex justify-center items-center self-center px-16 py-5  font-medium text-white text-center  w-full">
-                                        Lanjut Pembayaran
-                                    </button>
-                                </div>
+
+                            </div>
+                            <div class="bg-black rounded-[50px] w-[504px] w-full">
+                                <button type="submit"
+                                    class="flex justify-center items-center self-center px-16 py-5  font-medium text-white text-center  w-full">
+                                    Lanjut Pembayaran
+                                </button>
                             </div>
                         </form>
 
@@ -110,12 +144,4 @@
             </div>
         </div>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('continueToReservation').addEventListener('click', function() {
-                window.location.href = "{{ route('payment.create') }}";
-            });
-        });
-    </script>
 @endsection

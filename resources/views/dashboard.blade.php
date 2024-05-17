@@ -222,7 +222,7 @@
                 </div>
             </div>
         </div>
-        <div class="px-16 pb-6 mt-12 w-full bg-orange-400 max-md:px-5 max-md:mt-10 max-md:max-w-full">
+        <div class="px-16 pb-6 mt-12 w-full bg-orange-400 max-md:px-5 max-md:mt-10 max-md:max-w-full" id="kontak">
             <div class="flex gap-5 max-md:flex-col max-md:gap-0">
                 <div class="flex flex-col w-2/5 max-md:ml-0 max-md:w-full">
                     <img loading="lazy"
@@ -236,7 +236,7 @@
                         <div class="mt-7">Menu</div>
                         <div class="mt-7">Reservasi</div>
                         <div class="mt-7">Tentang Kami</div>
-                        <div class="mt-6">Kontak</div>
+                        <div class="mt-6"><a href="#kontak">Kontak</a></div>
                     </div>
                 </div>
                 <div class="flex flex-col ml-5 w-[44%] max-md:ml-0 max-md:w-full">

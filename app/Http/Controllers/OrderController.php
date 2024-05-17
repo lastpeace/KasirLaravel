@@ -26,14 +26,30 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'product_id' => 'required|exists:products,id',
-            'quantity' => 'required|integer|min:1',
-            'total_price' => 'required|numeric|min:0',
-            'status' => 'required|in:pending,completed',
+            'cart' => 'required|json'
         ]);
 
-        return redirect()->route('reservation.create')
+        $cart = json_decode($request->input('cart'), true);
+
+        // Periksa apakah $cart adalah array
+        if (!is_array($cart)) {
+            return redirect()->back()->withErrors(['cart' => 'Invalid cart data']);
+        }
+
+        foreach ($cart as $item) {
+            // Periksa apakah setiap item memiliki kunci yang dibutuhkan
+            if (isset($item['product_id'], $item['quantity'], $item['price'])) {
+                Order::create([
+                    'user_id' => auth()->id(),
+                    'product_id' => $item['product_id'],
+                    'quantity' => $item['quantity'],
+                    'total_price' => $item['price'] * $item['quantity'],
+                    'status' => 'pending',
+                ]);
+            }
+        }
+
+        return redirect()->route('reservations.create')
             ->with('success', 'Order created successfully. Proceed to reservation.');
     }
 
@@ -71,4 +87,6 @@ class OrderController extends Controller
         return redirect()->route('orders.index')
             ->with('success', 'Order deleted successfully');
     }
+
+
 }

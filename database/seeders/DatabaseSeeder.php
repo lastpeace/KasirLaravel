@@ -2,21 +2,46 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Order;
+use App\Models\Reservation;
+use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Run the database seeds.
+     *
+     * @return void
      */
-    public function run(): void
+    public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        // Buat user
+        $user = User::create([
+            'name' => 'John Doe',
+            'email' => 'john@example.com',
+            'password' => bcrypt('password'),
+        ]);
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        // Buat order
+        Order::create([
+            'user_id' => $user->id,
+            'product_id' => 1,
+            'quantity' => 2,
+            'total_price' => 20000,
+            'status' => 'completed',
+        ]);
+
+        // Buat reservation
+        Reservation::create([
+            'name' => 'John Doe',
+            'user_id' => $user->id,
+            'phone_number' => '123456789',
+            'date' => '2024-05-20',
+            'time' => '19:00',
+            'number_of_people' => 4,
+            'table_number' => 5,
+            'notes' => 'Prefer smoking area',
+        ]);
     }
 }

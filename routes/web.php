@@ -4,7 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
-
+use App\Http\Controllers\PaymentController;
 
 use App\Http\Controllers\ProductController;
 
@@ -33,39 +33,35 @@ Route::get('/login', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     // Route for admin dashboard
     Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard');
+        $user = auth()->user();
+        return view('admin.dashboard')->with('user', $user);
     })->name('admin.dashboard');
 
     // Route for customer dashboard
     Route::get('/customer/dashboard', function () {
-        return view('customer.dashboard');
+        $user = auth()->user();
+        return view('customer.dashboard')->with('user', $user);
     })->name('customer.dashboard');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    // Route for product index
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-    // Route for showing a specific product
     Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
-    // Route for creating a product
     Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
-    // Route for storing a new product
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
-    // Route for editing a product
     Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
-    // Route for updating a product
     Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
-    // Route for deleting a product
     Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
 });
-
+Route::get('/admin/products', [ProductController::class, 'indexForAdmin'])->name('admin.products.index');
 
 Route::middleware('auth')->group(function () {
     Route::resource('orders', 'App\Http\Controllers\OrderController');
     Route::resource('reservations', 'App\Http\Controllers\ReservationController');
     Route::resource('tables', 'App\Http\Controllers\TableController');
-    Route::get('/konfirmasi', 'App\Http\Controllers\ReservationController@konfirmasi')->name('konfirmasi');
-    Route::post('/konfirmasi', 'App\Http\Controllers\ReservationController@store')->name('konfirmasi.store');
+    Route::post('/payment/store', [PaymentController::class, 'store'])->name('payment.store');
+    Route::get('/payment/create', [PaymentController::class, 'create'])->name('payment.create');
+    Route::get('/payment/create', [PaymentController::class, 'showPayment'])->name('payment.create');
 
 });
 

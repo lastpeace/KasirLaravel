@@ -14,11 +14,12 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->string('type');
+            $table->text('description')->nullable(); // Tambahkan kolom deskripsi
             $table->decimal('price', 8, 2);
-            $table->string('image')->nullable(); // Tambahkan kolom image
+            $table->string('image')->nullable();
+            $table->enum('status', ['available', 'out_of_stock'])->default('available'); // Tambahkan kolom status
             $table->timestamps();
         });
-
     }
 
     /**

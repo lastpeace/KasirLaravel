@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Models\Product;
@@ -17,8 +18,10 @@ class OrderController extends Controller
     public function create()
     {
         $products = Product::all();
-        return view('orders.create', ['products' => $products]);
+        $users = User::all();
+        return view('orders.create', compact('products', 'users'));
     }
+
 
     public function store(Request $request)
     {
@@ -29,16 +32,11 @@ class OrderController extends Controller
             'total_price' => 'required|numeric|min:0',
             'status' => 'required|in:pending,completed',
         ]);
-        $data = json_decode($request->input('reservation'), true);
-        $order = Order::create([
-            'user_id' => auth()->id(),
-            'total_price' => $data('total_price'),
-            // tambahkan atribut lainnya sesuai kebutuhan
-        ]);
 
-        return redirect()->route('orders.index')
-            ->with('success', 'Order created successfully.');
+        return redirect()->route('reservation.create')
+            ->with('success', 'Order created successfully. Proceed to reservation.');
     }
+
 
     public function show(Order $order)
     {

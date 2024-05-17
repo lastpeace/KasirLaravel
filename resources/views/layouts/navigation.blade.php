@@ -14,7 +14,7 @@
                             <div
                                 class="flex gap-5 self-stretch my-auto text-lg font-medium text-black max-md:flex-wrap max-md:mt-10 max-md:max-w-full">
                                 <div class="w-[40%]">
-                                    <p class="w-[40%]"><a href="{{ route('dashboard') }}">Beranda</a></p>
+                                    <p class="w-[40%]"><a href="{{ route('customer.dashboard') }}">Beranda</a></p>
                                 </div>
                                 <div class="w-[40%]"><a href="{{ route('products.index') }}">Menu</a></div>
                                 <div class="w-[40%]"><a href="{{ route('orders.create') }}">Reservasi</a></div>
@@ -34,7 +34,7 @@
                         id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
                         data-dropdown-placement="bottom">
                         <span class="sr-only">Open user menu</span>
-                        <img class="w-8 h-8 rounded-full" src="public/img2.png" alt="user photo">
+                        <img class="w-8 h-8 rounded-full" src="{{ asset('img2.png') }}" alt="user photo">
                     </button>
                     <!-- Dropdown menu -->
                     <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"

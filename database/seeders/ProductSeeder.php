@@ -14,10 +14,10 @@ class ProductSeeder extends Seeder
     public function run()
     {
         Product::create([
-            'name' => 'Nasi Goreng',
+            'name' => 'Fried Chicken Nugget',
             'type' => 'makanan',
-            'price' => 15000,
-            'image' => 'path/to/nasi_goreng.jpg', // Ubah dengan path gambar yang benar
+            'price' => 19000,
+            'image' => 'public/Garlic.jpg', // Ubah dengan path gambar yang benar
         ]);
 
         Product::create([

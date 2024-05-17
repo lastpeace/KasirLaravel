@@ -114,7 +114,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('continueToReservation').addEventListener('click', function() {
-                window.location.href = "{{ route('konfirmasi') }}";
+                window.location.href = "{{ route('payment.create') }}";
             });
         });
     </script>

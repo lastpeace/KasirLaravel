@@ -22,39 +22,45 @@
             </div>
             <div class="px-0.5 mt-7 max-md:max-w-full">
                 <div class="flex gap-5 max-md:flex-col max-md:gap-0">
-                    @foreach ($products as $item)
-                        <div
-                            class="flex flex-col w-[33%] max-md:ml-0 max-md:w-full menu-item {{ strtolower($item->type) }}">
-                            <div class="flex flex-col grow justify-center max-md:mt-10">
-                                <div class="px-5 py-4 bg-white rounded-2xl max-md:pl-5">
-                                    <div class="flex gap-5 max-md:flex-col max-md:gap-0">
-                                        <div class="flex flex-col w-6/12 max-md:ml-0 max-md:w-full">
-                                            <div
-                                                class="flex overflow-hidden relative flex-col justify-center items-center aspect-square w-[187px] max-md:mt-10">
-                                                <img loading="lazy" srcset="{{ $item->image_url }}"
-                                                    class="object-cover absolute inset-0 size-full" />
-                                                <img loading="lazy" srcset="{{ $item->thumbnail_url }}"
-                                                    class="w-full aspect-square" />
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-col ml-5 w-6/12 max-md:ml-0 max-md:w-full">
-                                            <div class="flex flex-col grow mt-1 text-black max-md:mt-10">
-                                                <div class="text-xl font-medium">{{ $item->name }}</div>
-                                                <div class="mt-4 text-base font-light text-justify">
-                                                    {{ $item->description }}
+                    @php $rowCount = 3; @endphp
+                    @for ($i = 0; $i < $rowCount; $i++)
+                        <div class="flex max-md:flex-row max-md:w-full">
+                            @foreach ($products->skip($i * 3)->take(3) as $item)
+                                <div
+                                    class="flex flex-col w-[33%] max-md:ml-0 max-md:w-full menu-item {{ strtolower($item->type) }}">
+                                    <div class="flex flex-col grow justify-center max-md:mt-10">
+                                        <div class="px-5 py-4 bg-white rounded-2xl max-md:pl-5">
+                                            <div class="flex gap-5 max-md:flex-col max-md:gap-0">
+                                                <div class="flex flex-col w-6/12 max-md:ml-0 max-md:w-full">
+                                                    <div
+                                                        class="flex overflow-hidden relative flex-col justify-center items-center aspect-square w-[187px] max-md:mt-10">
+                                                        <img loading="lazy" srcset="{{ $item->image_url }}"
+                                                            class="object-cover absolute inset-0 size-full" />
+                                                        <img loading="lazy" srcset="{{ $item->thumbnail_url }}"
+                                                            class="w-full aspect-square" />
+                                                    </div>
                                                 </div>
-                                                <div class="self-end mt-9 text-2xl font-bold max-md:mr-2.5">
-                                                    {{ $item->price }}
+                                                <div class="flex flex-col ml-5 w-6/12 max-md:ml-0 max-md:w-full">
+                                                    <div class="flex flex-col grow mt-1 text-black max-md:mt-10">
+                                                        <div class="text-xl font-medium">{{ $item->name }}</div>
+                                                        <div class="mt-4 text-base font-light text-justify">
+                                                            {{ $item->description }}
+                                                        </div>
+                                                        <div class="self-end mt-9 text-2xl font-bold max-md:mr-2.5">
+                                                            {{ $item->price }}
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endforeach
                         </div>
-                    @endforeach
+                    @endfor
                 </div>
             </div>
+
 
         </div>
 

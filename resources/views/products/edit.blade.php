@@ -2,9 +2,17 @@
 
 @section('content')
     <div class="flex flex-col pt-4 pb-11 bg-white rounded-lg max-w-[850px]">
-        <img loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/56fadd62b978a5695370f459f528d0fd35dd1d1c1f19755b76c1f05283abcbeb?apiKey=bb6773fa61624e21adc05bfe1a2741a5&"
-            class="self-end aspect-[0.96] w-[50px]" />
+        <div class=" self-end aspect-[0.96] w-[50px]">
+            <button onclick="window.location.href = '{{ route('admin.products.index') }}';"
+                class="flex items-center bg-transparent border-none outline-none focus:outline-none">
+                <svg class="h-8 w-8 text-slate-900" width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                    stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" />
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M10 10l4 4m0 -4l-4 4" />
+                </svg>
+            </button>
+        </div>
         <div class="flex flex-col items-start pl-20 mt-3.5 w-full max-md:pl-5 max-md:max-w-full">
             <div class="text-lg font-semibold text-indigo-700 max-md:max-w-full">Edit Produk</div>
             <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data"

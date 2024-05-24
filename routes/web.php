@@ -9,6 +9,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReservationController;
 use App\Models\Reservation;
+use App\Http\Controllers\TableController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,23 +47,27 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('customer.dashboard');
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-    Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
     Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+    Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
     Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
     Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
     Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
 });
+
+
 Route::get('/admin/products', [ProductController::class, 'indexForAdmin'])->name('admin.products.index');
 Route::get('/admin/reservations', [ReservationController::class, 'indexForAdmin'])->name('admin.reservations.index');
+
+
 Route::middleware('auth')->group(function () {
     Route::resource('orders', 'App\Http\Controllers\OrderController');
-    Route::get('/orders/create', [OrderController::class, 'create'])->name('orders.create');
-    Route::post('/orders/store', [OrderController::class, 'store'])->name('orders.store');
+
     Route::resource('reservations', 'App\Http\Controllers\ReservationController');
     Route::resource('tables', 'App\Http\Controllers\TableController');
+
 });
 
 Route::middleware('auth')->group(function () {

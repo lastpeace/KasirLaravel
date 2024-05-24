@@ -62,13 +62,32 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $reservation->time }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $reservation->name }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $reservation->notes }}</td>
+                            @php
+                                $payment = $reservation->payment;
+                            @endphp
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-
+                                @if ($reservation->payment)
+                                    @if ($reservation->payment->status == '50%')
+                                        <span
+                                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                            50%
+                                        </span>
+                                    @elseif ($reservation->payment->status == 'full')
+                                        <span
+                                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                            Full
+                                        </span>
+                                    @endif
+                                @else
+                                    <span class="text-gray-500">Belum ada pembayaran</span>
+                                @endif
                             </td>
-
-                            {{-- Ambil status pesanan dari tabel Order --}}
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-
+                                @if ($reservation->payment)
+                                    {{ $reservation->payment->order->status }}
+                                @else
+                                    <span class="text-gray-500">Belum ada pesanan</span>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

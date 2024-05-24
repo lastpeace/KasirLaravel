@@ -43,18 +43,15 @@ class TableController extends Controller
         return view('tables.edit', compact('table'));
     }
 
-    public function update(Request $request, Table $table)
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'capacity' => 'required|integer|min:1',
-            'status' => 'required|in:available,full',
-        ]);
+        $table = Table::findOrFail($id);
+        $table->name = $request->name;
+        $table->capacity = $request->capacity;
+        $table->status = $request->status;
+        $table->save();
 
-        $table->update($request->all());
-
-        return redirect()->route('tables.index')
-            ->with('success', 'Table updated successfully');
+        return response()->json(['success' => true]);
     }
 
     public function destroy(Table $table)

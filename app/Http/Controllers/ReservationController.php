@@ -20,8 +20,8 @@ class ReservationController extends Controller
         $products = Product::all();
         $orders = Order::all();
         $payments = Payment::all();
-
-        return view('admin.reservations.index', compact('reservations', 'payments', 'orders', 'user'));
+        $userOrders = Order::with('user', 'product')->get();
+        return view('admin.reservations.index', compact('reservations', 'payments', 'orders', 'user', 'userOrders'));
     }
     public function index()
     {

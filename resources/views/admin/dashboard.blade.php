@@ -49,18 +49,23 @@
                 </form>
             </div>
         </div>
+        <br><br>
 
-
-
-        <script type="text/javascript">
-            function dropdown() {
-                document.querySelector("#submenu").classList.toggle("hidden");
-                document.querySelector("#arrow").classList.toggle("rotate-0");
-            }
-            dropdown();
-
-            function openSidebar() {
-                document.querySelector(".sidebar").classList.toggle("hidden");
-            }
-        </script>
+        <div
+            class=" container mx-auto flex flex-col grow p-4 pb-7 w-full text-base font-bold bg-white shadow-lg max-md:mt-10">
+            <h1 class="text-4xl font-bold text-center mb-8">Trending Products</h1>
+            <div class="flex flex-wrap">
+                @foreach ($trendingProducts as $product)
+                    <div class="w-1/4 p-4">
+                        <div class="bg-white shadow-md rounded-lg p-6">
+                            <img src="{{ $product->image }}" alt="{{ $product->name }}" class="w-full h-auto mb-4">
+                            <h2 class="self-start text-sm text-black">{{ $product->name }}</h2>
+                            <p class="mt-5 text-neutral-400">Penjualan</p>
+                            <p class="mt-4 mr-7 text-red-600 max-md:mr-2.5">
+                                {{ $product->orders->count() }}</p>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
     @endsection

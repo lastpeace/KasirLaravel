@@ -37,4 +37,10 @@ class Product extends Model
     {
         return $this->status == self::AVAILABLE ? 'Tersedia' : 'Habis';
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
 }

@@ -68,7 +68,8 @@
             const totalPriceInput = document.getElementById('total-price');
 
             // Menghitung total harga dari semua item
-            let total = items.reduce((acc, item) => acc + parseFloat(item.total_price), 0);
+            let total = items.reduce((acc, item) => acc + (parseFloat(item.total_price) * parseInt(item.quantity)),
+                0);
             totalPriceInput.value = total.toFixed(2);
         });
     </script>

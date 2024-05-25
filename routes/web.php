@@ -10,6 +10,9 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReservationController;
 use App\Models\Reservation;
 use App\Http\Controllers\TableController;
+use App\Models\Order;
+use App\Models\Product;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +40,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Route for admin dashboard
     Route::get('/admin/dashboard', function () {
         $user = auth()->user();
-        return view('admin.dashboard')->with('user', $user);
+        $orders = Order::all();
+        $orderCounts = $orders->groupBy(function ($order) {
+            return $order->created_at->format('Y-m-d');
+        })->map->count();
+        $totalOrders = $orders->count();
+        $trendingProducts = Product::select('products.*', DB::raw('COUNT(orders.id) as order_count'))
+            ->leftJoin('orders', 'products.id', '=', 'orders.product_id')
+            ->groupBy('products.id')
+            ->orderByDesc('order_count')
+            ->take(3) // Adjust the number of products you want to display
+            ->get();
+        return view('admin.dashboard', compact('user', 'totalOrders', 'trendingProducts'));
     })->name('admin.dashboard');
 
     // Route for customer dashboard

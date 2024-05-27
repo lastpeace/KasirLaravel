@@ -104,7 +104,7 @@
                                     <span class="text-red-600">Harap memilih sesuai kapasitas meja yang tertera di
                                         gambar</span>
                                 </div>
-                                <div class="w-1/2 p-2 ">
+                                <div class="w-1/2 p-2">
                                     <span class="">Catatan</span>
                                 </div>
                                 <div class="w-full p-2">

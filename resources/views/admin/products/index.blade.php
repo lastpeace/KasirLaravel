@@ -73,9 +73,10 @@
                         <tr>
                             <th class="border px-4 py-2 text-center cursor-pointer" onclick="sortTable(0)">ID</th>
                             <th class="border px-4 py-2 cursor-pointer" onclick="sortTable(1)">Product Name</th>
-                            <th class="border px-4 py-2 cursor-pointer" onclick="sortTable(2)">Type</th>
-                            <th class="border px-4 py-2 cursor-pointer" onclick="sortTable(3)">Price</th>
                             <th class="border px-4 py-2 cursor-pointer" onclick="sortTable(4)">Description</th>
+                            <th class="border px-4 py-2 cursor-pointer">Gambar</th>
+                            <th class="border px-4 py-2 cursor-pointer" onclick="sortTable(3)">Harga</th>
+                            <th class="border px-4 py-2 cursor-pointer" onclick="sortTable(2)">Kategori</th>
                             <th class="border px-4 py-2 cursor-pointer" onclick="sortTable(5)">Status</th>
                             <th class="border px-4 py-2">Actions</th>
                         </tr>
@@ -85,19 +86,50 @@
                             <tr class="menu-item {{ strtolower($product->type) }}">
                                 <td class="border px-4 py-2 text-center">{{ $loop->iteration }}</td>
                                 <td class="border px-4 py-2">{{ $product->name }}</td>
-                                <td class="border px-4 py-2">{{ $product->type }}</td>
-                                <td class="border px-4 py-2">{{ $product->price }}</td>
-                                <td class="border px-4 py-2">{{ $product->description }}</td>
-                                <td class="border px-4 py-2">{{ $product->status_label }}</td>
-                                <td class="border px-4 py-2">
-                                    <a href="{{ route('products.edit', $product->id) }}"
-                                        class="text-blue-600 hover:text-blue-900">Edit</a>
+                                <td class="border px-4 py-2 ">{{ $product->description }}</td>
+                                <td class="border px-4 py-2 text-center">
+                                    <img src="{{ $product->image }}" alt="{{ $product->name }}"
+                                        style="width: 70px; height: auto;">
+                                </td>
+                                <td class="border px-4 py-2 text-center">{{ $product->price }}</td>
+                                <td class="border px-4 py-2 text-center">{{ $product->type }}</td>
+                                <td class="border px-4 py-2 text-center">
+                                    <span
+                                        class="px-2 py-1 rounded @if ($product->status_label == 'Tersedia') bg-green-100 text-green-500
+                                              @elseif($product->status_label == 'Habis') bg-red-100 text-red-500 @endif">
+                                        {{ $product->status_label }}
+                                    </span>
+                                </td>
+                                <td class="border px-4 py-2 text-center">
+                                    <form action="{{ route('products.edit', $product->id) }}" method="GET"
+                                        class="inline-block">
+                                        <button type="submit" class="text-blue-600 hover:text-blue-900 focus:outline-none">
+                                            <svg class="h-8 w-8 text-slate-900" viewBox="0 0 24 24" stroke-width="2"
+                                                stroke="currentColor" fill="none" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" />
+                                                <path d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
+                                                <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
+                                                <line x1="16" y1="5" x2="19" y2="8" />
+                                            </svg>
+                                        </button>
+                                    </form>
+
                                     <form action="{{ route('products.destroy', $product->id) }}" method="POST"
                                         class="inline-block">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="text-red-600 hover:text-red-900 ml-2"
-                                            onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini?')">Hapus</button>
+                                            onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini?')"><svg
+                                                class="h-8 w-8 text-slate-900" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <polyline points="3 6 5 6 21 6" />
+                                                <path
+                                                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                                <line x1="10" y1="11" x2="10" y2="17" />
+                                                <line x1="14" y1="11" x2="14" y2="17" />
+                                            </svg></button>
                                     </form>
                                 </td>
                             </tr>
@@ -108,53 +140,39 @@
         </div>
     </div>
     <script>
+
+        
         function sortTable(n) {
             var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
             table = document.getElementById("productsTable");
             switching = true;
-            // Set the sorting direction to ascending:
             dir = "asc";
-            /* Make a loop that will continue until
-            no switching has been done: */
             while (switching) {
-                // Start by saying: no switching is done:
+
                 switching = false;
                 rows = table.rows;
-                /* Loop through all table rows (except the
-                first, which contains table headers): */
+
                 for (i = 1; i < (rows.length - 1); i++) {
-                    // Start by saying there should be no switching:
                     shouldSwitch = false;
-                    /* Get the two elements you want to compare,
-                    one from current row and one from the next: */
                     x = rows[i].getElementsByTagName("TD")[n];
                     y = rows[i + 1].getElementsByTagName("TD")[n];
-                    /* Check if the two rows should switch place,
-                    based on the direction, asc or desc: */
                     if (dir == "asc") {
                         if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                            // If so, mark as a switch and break the loop:
                             shouldSwitch = true;
                             break;
                         }
                     } else if (dir == "desc") {
                         if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                            // If so, mark as a switch and break the loop:
                             shouldSwitch = true;
                             break;
                         }
                     }
                 }
                 if (shouldSwitch) {
-                    /* If a switch has been marked, make the switch
-                    and mark that a switch has been done: */
                     rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
                     switching = true;
-                    // Each time a switch is done, increase this count by 1:
                     switchcount++;
                 } else {
-                    /* If no switching has been done AND the direction is "asc",
-                    set the direction to "desc" and run the while loop again. */
                     if (switchcount == 0 && dir == "asc") {
                         dir = "desc";
                         switching = true;

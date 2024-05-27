@@ -152,29 +152,9 @@
             </div>
         </div>
     </div>
-    <div id="myModal" class="modal hidden fixed inset-0  bg-opacity-75 overflow-y-auto z-50">
-        <div class="modal-content flex justify-center items-center h-full">
-            <div class="flex flex-col bg-white rounded-lg max-w-[609px]">
-                <div class="flex justify-between items-center px-4 py-2 bg-indigo-700 text-white rounded-t-lg">
-                    <h2 class="text-lg">Reservation Notes</h2>
-                    <button onclick="closeModal()" class="focus:outline-none">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-                <div class="px-4 py-6">
-                    <p id="modalText"
-                        class="text-sm font-semibold text-indigo-700 border border-indigo-700 rounded-lg px-4 py-2">
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <div id="detailModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-        <div class="bg-white rounded-lg max-w-2xl w-full p-6 mx-4 md:mx-0">
+        <div class="bg-white rounded-lg max-w-[90%] md:max-w-2xl w-full p-6 mx-4 md:mx-0">
             <div class="flex justify-between items-center">
                 <h2 class="text-lg font-semibold text-indigo-700">Rincian Pesanan</h2>
                 <button onclick="closeDetailModal()" class="focus:outline-none">
@@ -184,27 +164,25 @@
                     </svg>
                 </button>
             </div>
-            <div class="flex flex-col items-start mt-4 w-full">
-
+            <div class="flex flex-col items-start mt-4 w-full overflow-y-auto max-h-[80vh]">
                 <div class="mt-4 w-full">
                     <div class="flex gap-5 md:flex-col md:gap-0">
-                        <div class="flex flex-wrap max-md:max-w-full relative px-10">
+                        <div class="flex flex-wrap max-md:max-w-full relative px-4 md:px-10">
                             <div id="detailId" class="text-sm font-semibold text-neutral-500"></div>
                             <div class="w-full p-2">
-                                <div class="self-start mt-4 ml-4 text-xs text-black max-md:ml-2.5">Nama</div>
+                                <div class="self-start mt-4 text-xs text-black">Nama</div>
                                 <div id="detailName"
                                     class="px-4 py-5 mt-1.5 rounded-lg border border-black border-solid w-full">
                                 </div>
                             </div>
                             <div class="w-full p-2">
-                                <div class="self-start mt-1.5 ml-4 text-xs text-black max-md:ml-2.5">No Telepon</div>
+                                <div class="self-start mt-1.5 text-xs text-black">No Telepon</div>
                                 <div id="detailPhone"
                                     class="px-4 py-5 mt-1.5 rounded-lg border border-black border-solid w-full">
                                 </div>
                             </div>
-
-                            <div class="flex flex-wrap px-10">
-                                <div class="w-1/2 p-2 max-width">
+                            <div class="flex flex-wrap w-full px-4 md:px-10">
+                                <div class="w-1/2 p-2">
                                     <div class="self-start text-xs text-black">Tanggal</div>
                                     <div id="detailDate"
                                         class="justify-center items-start px-4 py-3 text-indigo-700 rounded-lg border border-indigo-700">
@@ -216,14 +194,13 @@
                                         class="justify-center items-start px-4 py-3 text-indigo-700 rounded-lg border border-indigo-700">
                                     </div>
                                 </div>
-                                <div class="w-1/2 p-2">
+                                <div class="w-full p-2">
                                     <div class="self-start mt-1.5 text-xs text-black">Catatan</div>
                                     <div id="detailNotes"
                                         class="justify-center px-4 py-7 mt-2 text-xs text-indigo-700 rounded-lg border border-indigo-700 w-full">
                                     </div>
                                 </div>
                                 <div class="w-1/2 p-2">
-
                                     <div class="self-start text-xs text-black">Jam</div>
                                     <div id="detailTime"
                                         class="justify-center items-start px-4 py-3 text-indigo-700 rounded-lg border border-indigo-700">
@@ -235,11 +212,9 @@
                                         class="justify-center items-start px-4 py-3 text-indigo-700 rounded-lg border border-indigo-700">
                                     </div>
                                 </div>
-
                             </div>
-
                         </div>
-                        <div class="flex flex-col w-1/4 md:w-full">
+                        <div class="flex flex-col w-full md:w-1/4">
                             <div class="text-sm font-semibold text-neutral-500">Pesanan</div>
                             <div id="detailOrders" class="mt-2 space-y-2"></div>
                             <div class="mt-10 text-sm font-semibold text-neutral-500">Rincian Pembayaran</div>
@@ -252,10 +227,8 @@
                 <button onclick="closeDetailModal()"
                     class="px-16 py-3 text-sm font-semibold text-white bg-indigo-700 rounded-lg">Simpan</button>
             </div>
-
         </div>
     </div>
-
     <script>
         function openModal(notes) {
             var modal = document.getElementById("myModal");

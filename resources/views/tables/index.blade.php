@@ -115,7 +115,7 @@
         </div>
 
         <!-- Modal -->
-        <div id="editModal" class="fixed z-10 inset-0 overflow-y-auto hidden">
+        <div id="editModal" class="fixed z-10 inset-0 bg-black bg-opacity-50 overflow-y-auto hidden">
             <div class="flex items-center justify-center min-h-screen">
                 <div class="bg-white rounded-lg p-6 w-full max-w-md">
                     <div class="flex justify-between items-center">
@@ -161,7 +161,7 @@
                 </div>
             </div>
         </div>
-        <div id="createModal" class="fixed z-10 inset-0 overflow-y-auto hidden">
+        <div id="createModal" class="fixed z-10 bg-black bg-opacity-50 inset-0 overflow-y-auto hidden">
             <div class="flex items-center justify-center min-h-screen">
                 <div class="bg-white rounded-lg p-6 w-full max-w-md">
                     <div class="flex justify-between items-center">

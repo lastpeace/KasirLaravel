@@ -49,7 +49,7 @@
                                             rows="7" cols="200" value="{{ auth()->user()->name }}" readonly />
                                     </div>
                                 </div>
-                                <div class="w-full p-2">
+                                <div class="w-full p-2" hidden>
                                     <div class="">
                                         <span class="text-red-600">User Id *</span>
                                         <br>
@@ -95,10 +95,10 @@
                                 <div class="w-1/2 p-2">
                                     <span class="text-red-600">Meja *</span>
                                     <br>
-                                    <select name="table_number"
+                                    <select name="table_number" id="table_number"
                                         class="px-4 py-5 mt-1.5 rounded-lg border border-black border-solid w-full">
                                         @foreach ($tables as $table)
-                                            <option value="{{ $table->id }}">{{ $table->name }}</option>
+                                            <option value="{{ $table->capacity }}">{{ $table->name }}</option>
                                         @endforeach
                                     </select>
                                     <span class="text-red-600">Harap memilih sesuai kapasitas meja yang tertera di
@@ -144,4 +144,14 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Event listener untuk memantau perubahan pada elemen select meja
+        document.getElementById('table_number').addEventListener('change', function() {
+            // Dapatkan nilai kapasitas meja yang dipilih
+            var selectedCapacity = parseInt(this.value);
+            // Perbarui atribut max dari input number_of_people
+            document.getElementById('number_of_people').setAttribute('max', selectedCapacity);
+        });
+    </script>
 @endsection

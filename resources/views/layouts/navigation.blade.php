@@ -19,7 +19,7 @@
                                 <div class="w-[40%]"><a href="{{ route('products.index') }}">Menu</a></div>
                                 <div class="w-[40%]"><a href="{{ route('orders.create') }}">Reservasi</a></div>
                                 <div class="w-[40%]">
-                                    <p>Tentang Kami</p>
+                                    <a href="#tentangkami">Tentang Kami</a>
                                 </div>
                                 <div class="w-[40%]">
                                     <a href="#kontak">Kontak</a>
@@ -54,7 +54,8 @@
                             <ul class="py-2" aria-labelledby="user-menu-button">
                                 <li>
                                     <a href="#"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 ">Profile</a>
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 "
+                                        onclick="toggleModal('profileModal')">Profile</a>
                                 </li>
                                 <li>
                                     <a href="{{ route('reservations.index') }}"
@@ -70,9 +71,52 @@
                                         class="block px-4 py-2 text-sm text-red-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-red-200">Keluar</a>
                                 </li>
                             </ul>
+
                         @endguest
                     </div>
                 </div>
             </div>
         </div>
+
+        @auth
+            <div id="profileModal" class="fixed z-10 inset-0 overflow-y-auto hidden flex items-center justify-center">
+                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+                <div
+                    class="bg-white rounded-lg overflow-hidden shadow-xl text-center transform transition-all sm:max-w-lg sm:w-full">
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div class="sm:flex sm:items-start">
+                            <div class="flex flex-col max-md:ml-0 max-md:w-full w-6/12">
+                                <img src="{{ asset('img2.png') }}" alt="" class="w-[65%]">
+                            </div>
+
+                            <div class="flex flex-col text-xl font-medium w-6/12 text-black max-md:mt-10">
+                                <div class="bg-gray-50 sm:px-6 sm:flex sm:flex-row-reverse">
+                                    <button type="button"
+                                        class=" inline-flex rounded-full border border-gray-300 shadow-sm px-2 py-2 bg-gray-300 hover:bg-gray-50 sm:w-auto sm:text-sm"
+                                        onclick="toggleModal('profileModal')"><svg class="h-5 w-5 text-slate-900"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <line x1="18" y1="6" x2="6" y2="18" />
+                                            <line x1="6" y1="6" x2="18" y2="18" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="text-left">
+                                    <div class="">Nama</div>
+                                    <div class="mt-5 text-lg font-light">{{ auth()->user()->name }}</div>
+                                    <div class="mt-5">Email</div>
+                                    <div class="mt-5 text-lg font-light">{{ auth()->user()->email }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                function toggleModal(modalID) {
+                    document.getElementById(modalID).classList.toggle("hidden");
+                }
+            </script>
+        @endauth
 </nav>

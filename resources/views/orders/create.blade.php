@@ -1,62 +1,96 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class=" text-2xl font-semibold px-4 py-4">Menu</div>
-    <div class="grid">
-        <div class=" items-center col-span-1">
-            <button id="semuaBtn"
-                class="w-[69px] md:w-[142px] h-[19.54px] md:h-[42.17px] bg-black text-white rounded-[50px] mb-2 md:mb-0">Semua</button>
+    <style>
+        .cart-item-image {
+            width: 75px;
+            height: 75px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .cart {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+    </style>
+
+    <div class="text-2xl font-semibold px-4 py-4">Menu</div>
+    <div class="w-full flex flex-col md:flex-row-reverse">
+        <div class="w-full md:w-[347px] px-4 py-2 mt-4 md:mt-0">
+            <button id="semuaBtn" class="w-40 h-[42px] bg-black text-white rounded-[50px] mb-2 md:mb-0">Semua</button>
             <button id="minumanBtn"
-                class="w-[69px] md:w-[142px] h-[19.54px] md:h-[42.17px] bg-gray-200 text-zinc-600 rounded-[50px] mb-2 md:mb-0">Minuman</button>
+                class="w-40 h-[42px] bg-gray-200 text-zinc-600 rounded-[50px] mb-2 md:mb-0">Minuman</button>
             <button id="makananBtn"
-                class="w-[69px] md:w-[142px] h-[19.54px] md:h-[42.17px] bg-gray-200 text-zinc-600 rounded-[50px] mb-2 md:mb-0">Makanan</button>
-            <button id="snackBtn"
-                class="w-[47px] md:w-[142px] h-[19.54px] md:h-[42.17px] bg-gray-200 text-zinc-600 rounded-[50px] mb-2 md:mb-0">Snack</button>
+                class="w-40 h-[42px] bg-gray-200 text-zinc-600 rounded-[50px] mb-2 md:mb-0">Makanan</button>
+            <button id="snackBtn" class="w-40 h-[42px] bg-gray-200 text-zinc-600 rounded-[50px] mb-2 md:mb-0">Snack</button>
         </div>
 
-
-    </div>
-    <!-- Menu Kiri -->
-    <div class="container flex mt-9">
-        <div class="flex flex-col gap-5 max-md:flex-col max-md:gap-0 px-10">
-            @php $rowCount = ceil($products->count() / 3); @endphp
-            @for ($i = 0; $i < $rowCount; $i++)
-                <div class="flex max-md:flex-row max-md:w-full gap-20">
-                    @foreach ($products->skip($i * 3)->take(3) as $product)
-                        <div class="flex max-md:ml-0 max-md:w-[33.33%] w-full menu-item {{ strtolower($product->type) }}">
-                            <div class="flex flex-col grow justify-center text-sm text-black max-md:mt-10">
-                                <div
-                                    class="flex flex-col px-4 py-4 bg-white rounded-2xl border border-solid border-neutral-400 ">
-                                    <img loading="lazy" src="{{ asset($product->image) }}"
-                                        class="self-center aspect-square w-[180px]" />
-                                    <div class="mt-3 text-base font-medium max-md:mr-2.5">{{ $product->name }}</div>
-                                    <div class="mt-2.5 font-light">{{ $product->price }}</div>
-                                    <button
-                                        onclick="addToCart({{ $product->id }}, '{{ $product->name }}', {{ $product->price }})"
-                                        class="justify-center px-12 py-3 mt-5 text-center text-white whitespace-nowrap bg-indigo-700 rounded-2xl max-md:px-5 max-md:mr-1.5 cursor-pointer">Tambahkan
-                                    </button>
+        <div class="container mx-auto flex flex-col md:flex-row">
+            {{-- Bagian kiri --}}
+            <div class="w-full md:w-[90%] mt-4 md:mt-0" style="overflow-y: auto; max-height: calc(100vh - 150px);">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-7 mt-5">
+                    @foreach ($products as $product)
+                        <div
+                            class="flex flex-col justify-center text-sm text-black max-w-[209px] menu-item {{ strtolower($product->type) }}">
+                            <div
+                                class="flex flex-col px-4 py-4 bg-white rounded-2xl border border-solid border-neutral-400">
+                                <div class="flex w-full">
+                                    <img id="imagePreview_{{ $product->id }}" loading="lazy"
+                                        src="{{ asset($product->image) }}"
+                                        class="self-center aspect-square w-[180px] rounded-2xl" />
+                                </div>
+                                <div class="flex flex-col mt-3 ml-4">
+                                    <div class="text-base font-medium">{{ $product->name }}</div>
+                                    <div class="mt-2.5 font-light">{{ number_format($product->price, 0, '', '.') }}</div>
+                                    <div
+                                        class="flex justify-center mt-5 bg-indigo-700 text-white rounded-full whitespace-nowrap cursor-pointer">
+                                        <button
+                                            onclick="addToCart('{{ $product->id }}', '{{ asset($product->image) }}', '{{ $product->name }}', {{ $product->price }})"
+                                            class="px-4 py-3">{{ __('Tambahkan') }}</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     @endforeach
                 </div>
-            @endfor
-        </div>
-        <!-- Keranjang Belanja Kanan -->
-        <div
-            class="container cart flex w-[40%] flex-col px-7 py-6 text-black bg-white rounded-lg border border-solid border-neutral-400 ">
-            <div class="flex text-xl font-medium">Keranjang</div>
-            <div id="cart-items">
             </div>
-            <form id="order-form" action="{{ route('orders.store') }}" method="POST">
-                @csrf
-                <input type="hidden" name="cart" id="cartInput">
-                <button type="submit" class="px-6 py-3 mt-5 text-white bg-indigo-700 rounded-lg">Proceed to
-                    Reservation</button>
-            </form>
-        </div>
-    </div>
 
+
+
+
+            {{-- Bagian kanan --}}
+            <div class="w-full md:w-[10%] mt-4 ml-10 ">
+                <div
+                    class="container cart flex flex-col px-7 py-6 text-black bg-white rounded-lg border border-solid border-neutral-400">
+                    <div class="flex text-xl font-medium">Keranjang</div>
+                    <div id="cart-items" class="flex-grow overflow-y-auto max-h-[400px]"></div>
+                    <div class="total-container">
+                        <div
+                            class="flex gap-5 justify-between text-xl font-medium uppercase whitespace-nowrap max-md:flex-wrap max-md:mt-10 max-md:max-w-full">
+                            <div>Total</div>
+                            <div id="total-price" class="text-right">0</div>
+                        </div>
+                        <div>
+                            <form id="order-form" action="{{ route('orders.store') }}" method="POST"
+                                onsubmit="updateCartInput()">
+                                @csrf
+                                <input type="hidden" name="cart" id="cartInput">
+                                <div class="bg-black text-white flex justify-center items-center rounded-full">
+                                    <button type="submit" class="px-6 py-3 mt-5 text-white rounded-full">Proceed to
+                                        Reservation</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
 
     <script>
         document.getElementById("semuaBtn").addEventListener("click", function() {
@@ -92,8 +126,7 @@
             });
         });
 
-        // Fungsi untuk menambahkan produk ke keranjang belanja
-        function addToCart(productId, productName, productPrice) {
+        function addToCart(productId, productImage, productName, productPrice) {
             let cart = getCart();
             let existingItemIndex = cart.findIndex(item => item.product_id === productId);
             if (existingItemIndex !== -1) {
@@ -101,6 +134,7 @@
             } else {
                 cart.push({
                     product_id: productId,
+                    image: productImage,
                     name: productName,
                     price: productPrice,
                     quantity: 1
@@ -110,21 +144,11 @@
             updateCartDisplay();
         }
 
-        // Fungsi untuk mendapatkan keranjang dari localStorage
         function getCart() {
             let cart = localStorage.getItem('cart');
             return cart ? JSON.parse(cart) : [];
         }
 
-        // Fungsi untuk menghapus produk dari keranjang belanja berdasarkan index
-        function removeFromCart(index) {
-            let cart = getCart();
-            cart.splice(index, 1);
-            setCart(cart);
-            updateCartDisplay();
-        }
-
-        // Fungsi untuk menghapus produk dari keranjang belanja berdasarkan product_id
         function removeProductFromCart(productId) {
             let cart = getCart();
             let updatedCart = cart.filter(item => item.product_id !== productId);
@@ -132,72 +156,59 @@
             updateCartDisplay();
         }
 
-        // Fungsi untuk menyimpan keranjang ke localStorage
         function setCart(cart) {
             localStorage.setItem('cart', JSON.stringify(cart));
         }
 
-        // Fungsi untuk memperbarui tampilan keranjang belanja
-        function updateCartDisplay() {
+        function updateCartInput() {
             let cart = getCart();
-            let cartItemsDiv = document.getElementById('cart-items');
-            cartItemsDiv.innerHTML = '';
-
-            if (cart.length > 0) {
-                let groupedCart = groupCartByProductName(cart);
-                let totalSemuaPrice = 0;
-
-                Object.keys(groupedCart).forEach(productName => {
-                    let totalQuantity = groupedCart[productName].reduce((acc, cur) => acc + cur.quantity, 0);
-                    let totalPrice = groupedCart[productName][0].price * totalQuantity;
-                    totalSemuaPrice += totalPrice;
-
-                    let itemDiv = document.createElement('div');
-                    itemDiv.innerHTML = `
-                    <div>${productName}
-                        <input type="number" value="${totalQuantity}" style="width: 50px; padding: 5px;" onchange="updateQuantity('${productName}', this.value)" readonly>${totalPrice}
-                        <button onclick="removeProductFromCart(${groupedCart[productName][0].product_id})">
-                        <svg class="h-10 w-10 text-slate-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="3 6 5 6 21 6" />
-                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                        </svg>
-                    </button> 
-                    </div>
-                        <div>${groupedCart[productName][0].price}</div>
-                    
-                    
-                `;
-                    cartItemsDiv.appendChild(itemDiv);
-                });
-
-                // Menampilkan total harga dari semua item dalam keranjang
-                let totalDiv = document.createElement('div');
-                totalDiv.innerHTML = `
-                    <div class="text-xl mt-4">Total : ${totalSemuaPrice}</div>
-                `;
-                cartItemsDiv.appendChild(totalDiv);
-            } else {
-                let emptyCartDiv = document.createElement('div');
-                emptyCartDiv.textContent = 'Keranjang belanja kosong';
-                cartItemsDiv.appendChild(emptyCartDiv);
-            }
-
-
             document.getElementById('cartInput').value = JSON.stringify(cart);
         }
 
-        // Fungsi untuk mengelompokkan produk dengan nama yang sama dalam keranjang belanja
-        function groupCartByProductName(cart) {
-            return cart.reduce((acc, cur) => {
-                if (!acc[cur.name]) {
-                    acc[cur.name] = [];
-                }
-                acc[cur.name].push(cur);
-                return acc;
-            }, {});
+        function updateCartDisplay() {
+            let cart = getCart();
+            let cartItemsDiv = document.getElementById('cart-items');
+            let totalPriceDiv = document.getElementById('total-price');
+            cartItemsDiv.innerHTML = '';
+            let totalSemuaPrice = 0;
+
+            if (cart.length > 0) {
+                cart.forEach((item, index) => {
+                    let totalItemPrice = item.price * item.quantity;
+                    totalSemuaPrice += totalItemPrice;
+
+                    let itemDiv = document.createElement('div');
+                    itemDiv.classList.add('flex', 'flex-col', 'px-7', 'py-6', 'text-black', 'bg-white',
+                        'rounded-lg', 'max-md:px-5',
+                        'max-md:max-w-full');
+
+                    itemDiv.innerHTML = `
+        <div class="flex gap-5 max-md:flex-wrap">
+            <div class="flex flex-auto gap-5 ">
+                <img loading="lazy" src="${item.image}" class="shrink-0 aspect-square w-[75px]" />
+                <div class="flex flex-col self-start mt-2.5">
+                    <div class="text-base font-medium">${item.name}</div>
+                    <div class="mt-3.5 text-sm font-light">${item.price.toLocaleString()}</div>
+                </div>
+            </div>
+            <div class="flex gap-5 justify-between items-center self-start px-px mt-2 whitespace-nowrap">
+                <div class="justify-center items-center self-stretch px-5 text-base text-center bg-white rounded-md border border-black border-solid h-[45px] w-[45px]">${item.quantity}</div>
+                <div class="self-stretch my-auto text-lg font-medium">${totalItemPrice.toLocaleString()}</div>
+                <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/4a26f71d9ca019e294cc9bd96adf2068692e5ad06979f90b0ebd1f55d52a7ddb?apiKey=bb6773fa61624e21adc05bfe1a2741a5&" class="shrink-0 self-stretch my-auto w-6 aspect-square cursor-pointer" onclick="removeProductFromCart('${item.product_id}')"/>
+            </div>
+        </div>
+    `;
+
+                    cartItemsDiv.appendChild(itemDiv);
+                });
+
+                totalPriceDiv.innerText = totalSemuaPrice.toLocaleString();
+            } else {
+                totalPriceDiv.innerText = '0';
+            }
         }
 
-        // Memanggil fungsi updateCartDisplay saat halaman dimuat
+        // Muat tampilan keranjang saat halaman dimuat
         document.addEventListener('DOMContentLoaded', updateCartDisplay);
     </script>
 @endsection

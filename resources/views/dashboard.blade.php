@@ -157,7 +157,7 @@
                         srcset="https://cdn.builder.io/api/v1/image/assets/TEMP/303e4c96c2967c6620b2252f52e9f1b9dc6714c14b659687a4701bca8c04e9d7?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/303e4c96c2967c6620b2252f52e9f1b9dc6714c14b659687a4701bca8c04e9d7?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/303e4c96c2967c6620b2252f52e9f1b9dc6714c14b659687a4701bca8c04e9d7?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/303e4c96c2967c6620b2252f52e9f1b9dc6714c14b659687a4701bca8c04e9d7?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/303e4c96c2967c6620b2252f52e9f1b9dc6714c14b659687a4701bca8c04e9d7?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/303e4c96c2967c6620b2252f52e9f1b9dc6714c14b659687a4701bca8c04e9d7?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/303e4c96c2967c6620b2252f52e9f1b9dc6714c14b659687a4701bca8c04e9d7?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/303e4c96c2967c6620b2252f52e9f1b9dc6714c14b659687a4701bca8c04e9d7?apiKey=bb6773fa61624e21adc05bfe1a2741a5&"
                         class="grow w-full aspect-[0.99] max-md:mt-10 max-md:max-w-full" />
                 </div>
-                <div class="flex flex-col ml-5 w-[63%] max-md:ml-0 max-md:w-full">
+                <div class="flex flex-col ml-5 w-[63%] max-md:ml-0 max-md:w-full" id="tentangkami">
                     <div
                         class="self-stretch my-auto text-lg font-light text-justify text-black max-md:mt-10 max-md:max-w-full">
                         <span class="font-medium">Selamat datang di Mono Cafe!</span>
@@ -232,10 +232,10 @@
                 <div class="flex flex-col ml-5 w-[16%] max-md:ml-0 max-md:w-full">
                     <div
                         class="flex flex-col justify-center self-stretch my-auto text-lg text-justify text-white max-md:mt-10">
-                        <div>Beranda</div>
-                        <div class="mt-7">Menu</div>
-                        <div class="mt-7">Reservasi</div>
-                        <div class="mt-7">Tentang Kami</div>
+                        <div><a href="#">Beranda</a></div>
+                        <div class="mt-7"><a href="{{ route('products.index') }}">Menu</a></div>
+                        <div class="mt-7"><a href="{{ route('orders.create') }}">Reservasi</a></div>
+                        <div class="mt-7"><a href="#tentangkami">Tentang Kami</a></div>
                         <div class="mt-6"><a href="#kontak">Kontak</a></div>
                     </div>
                 </div>
@@ -264,9 +264,9 @@
                 </div>
             </div>
         </div>
-        <div
-            class="justify-center items-center py-6 pr-16 pl-32 w-full text-lg font-light text-justify text-white bg-black max-md:px-5 max-md:max-w-full">
-            © 2024 Mono Cafe. Hak Cipta Dilindungi Undang-Undang.
-        </div>
+
+    </div>
+    <div class="text-center py-6 pr-16 pl-32 w-full text-lg font-light text-white bg-black max-md:px-5 max-md:max-w-full">
+        © 2024 Mono Cafe. Hak Cipta Dilindungi Undang-Undang.
     </div>
 @endsection

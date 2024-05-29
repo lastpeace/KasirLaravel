@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
 {
@@ -16,48 +17,15 @@ class PaymentController extends Controller
         return view('payments.index', compact('payments'));
     }
 
-    public function create($reservationId)
+    public function create()
     {
-        $reservation = Reservation::findOrFail($reservationId);
-        $userOrders = Order::where('user_id', $reservation->user_id)->get();
-        $user = User::all();
-        return view('payments.create', compact('reservation', 'userOrders', 'user'));
+        $user = Auth::user();
+        $reservation = Reservation::where('user_id', $user->id)->orderBy('created_at', 'desc')->first();
+        $userOrders = Order::where('user_id', $user->id)->whereIn('status', ['pending', 'complete'])->get();
+        return view('payments.create', compact('userOrders', 'user', 'reservation'));
     }
 
-    public function store(Request $request, $reservationId)
-    {
-        $request->validate([
-            'order_id' => 'required|exists:orders,id',
-            'status' => 'required|in:50%,full',
-        ]);
-
-        $order = Order::findOrFail($request->order_id);
-        $amount = $request->input('status') == '50%' ? $order->total_price / 2 : $order->total_price;
-
-        $payment = Payment::create([
-            'reservation_id' => $reservationId,
-            'order_id' => $order->id,
-            'total_price' => $amount,
-            'status' => $request->input('status'),
-        ]);
-        $orders = Order::whereIn('id', $request->order_ids)->get();
-        foreach ($orders as $order) {
-            $order->status = 'complete';
-            $order->save();
-        }
-
-        return redirect()->route('payments.index')
-            ->with('success', 'Payment processed successfully.');
-    }
-    public function createPayment($reservationId)
-    {
-        $reservation = Reservation::findOrFail($reservationId);
-        $userOrders = Order::where('user_id', $reservation->user_id)->get();
-
-        return view('payments.create', compact('reservation', 'userOrders'));
-    }
-
-    public function storePayment(Request $request, $reservationId)
+    public function store(Request $request)
     {
         $request->validate([
             'order_ids' => 'required|array',
@@ -65,32 +33,45 @@ class PaymentController extends Controller
             'status' => 'required|in:50%,full',
         ]);
 
-        Order::whereIn('id', $request->order_ids)->update(['status' => 'completed']);
+        $user = Auth::user();
+        $reservation = Reservation::where('user_id', $user->id)->orderBy('created_at', 'desc')->first();
 
-        $status = $request->input('status');
+        if (!$reservation) {
+            return redirect()->route('payments.create')
+                ->withErrors('No reservation found for the user.');
+        }
 
+        $totalPrice = 0;
         foreach ($request->order_ids as $orderId) {
             $order = Order::findOrFail($orderId);
-            $amount = $status == '50%' ? $order->total_price / 2 : $order->total_price;
+            $totalPrice += $order->total_price;
+        }
 
-            Payment::create([
-                'reservation_id' => $reservationId,
-                'order_id' => $order->id,
-                'total_price' => $amount,
-                'status' => $status,
-            ]);
+        $amount = ($request->input('status') == '50%') ? $totalPrice / 2 : $totalPrice;
 
+        // Create a new payment record
+        $payment = Payment::create([
+            'reservation_id' => $reservation->id,
+            'total_price' => $amount,
+            'status' => $request->input('status'),
+            'order_id' => $request->order_ids[0], // Assigning the first order_id
+        ]);
+
+        // Attach orders to the payment
+        $payment->orders()->attach($request->order_ids);
+
+        // Update status of orders to 'complete' if full payment is made
+        if ($request->input('status') == 'full') {
+            Order::whereIn('id', $request->order_ids)->update(['status' => 'complete']);
         }
 
         return redirect()->route('reservations.index')
-            ->with('success', 'Payments processed successfully.');
+            ->with('success', 'Payment processed successfully.');
     }
 
 
-    public function show(Payment $payment)
-    {
-        return view('payments.show', compact('payment'));
-    }
+
+
 
     public function edit(Payment $payment)
     {
@@ -114,7 +95,7 @@ class PaymentController extends Controller
         ]);
 
         if ($request->input('status') == 'full') {
-            $order->status = 'completed';
+            $order->status = 'complete';
             $order->save();
         }
 

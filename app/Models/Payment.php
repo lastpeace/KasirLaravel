@@ -25,4 +25,10 @@ class Payment extends Model
     {
         return $this->belongsTo(Order::class);
     }
+
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class);
+    }
+
 }

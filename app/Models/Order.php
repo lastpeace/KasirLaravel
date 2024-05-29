@@ -32,4 +32,10 @@ class Order extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function payments()
+    {
+        return $this->belongsToMany(Payment::class);
+    }
+
 }

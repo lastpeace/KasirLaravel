@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Order;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -38,9 +39,9 @@ class Product extends Model
         return $this->status == self::AVAILABLE ? 'Tersedia' : 'Habis';
     }
 
+
     public function orders()
     {
-        return $this->hasMany(Order::class);
+        return $this->belongsTo(Order::class);
     }
-
 }

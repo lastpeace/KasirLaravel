@@ -25,7 +25,7 @@ class ReservationController extends Controller
     }
     public function index()
     {
-        $reservations = Reservation::all();
+        $reservation = Reservation::all()->first();
         $user = auth()->user();
         $payments = Payment::all();
         $orders = Order::all();
@@ -62,7 +62,7 @@ class ReservationController extends Controller
         $table->status = 'full';
         $table->save();
 
-        return redirect()->route('payments.create', ['reservationId' => $reservation->id])
+        return redirect()->route('payments.create')
             ->with('success', 'Reservation created successfully.');
 
     }
@@ -75,32 +75,6 @@ class ReservationController extends Controller
         return view('payments.index', compact('reservation', 'orders'));
     }
 
-    public function storePayment(Request $request, $reservationId)
-    {
-        $request->validate([
-            'order_id' => 'required|exists:orders,id',
-            'status' => 'required|in:50%,full',
-        ]);
-
-        $order = Order::findOrFail($request->order_id);
-        $amount = $request->input('status') == '50%' ? $order->total_price / 2 : $order->total_price;
-        $reservation = Reservation::findOrFail($reservationId);
-        $reservation->createPayment([
-            'reservation_id' => $reservationId,
-            'order_id' => $order->id,
-            'total_price' => $amount,
-            'status' => $request->input('status'),
-            // Atribut lainnya sesuai kebutuhan
-        ]);
-
-        if ($request->input('status') == 'full') {
-            $order->status = 'completed';
-            $order->save();
-        }
-
-        return redirect()->route('reservations.index')
-            ->with('success', 'Payment processed successfully.');
-    }
     public function show(Reservation $reservation)
     {
         return view('reservations.show', compact('reservation'));

@@ -86,14 +86,12 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
-    Route::get('/payments/create/{reservationId}', [PaymentController::class, 'create'])->name('payments.create');
-    Route::post('/payments/store/{reservationId}', [PaymentController::class, 'store'])->name('payments.store');
+    Route::get('/payments/create/', [PaymentController::class, 'create'])->name('payments.create');
+    Route::post('/payments/store/', [PaymentController::class, 'store'])->name('payments.store');
     Route::get('/payments/{payment}', [PaymentController::class, 'show'])->name('payments.show');
     Route::get('/payments/{payment}/edit', [PaymentController::class, 'edit'])->name('payments.edit');
     Route::put('/payments/{payment}', [PaymentController::class, 'update'])->name('payments.update');
     Route::delete('/payments/{payment}', [PaymentController::class, 'destroy'])->name('payments.destroy');
-    Route::get('/payments/create/{reservationId}', [PaymentController::class, 'createPayment'])->name('payments.create');
-    Route::post('/payments/store/{reservationId}', [PaymentController::class, 'storePayment'])->name('payments.store');
 
 });
 

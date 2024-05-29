@@ -19,7 +19,7 @@ class CreateOrdersTable extends Migration
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->integer('quantity');
             $table->decimal('total_price', 8, 2);
-            $table->enum('status', ['pending', 'completed'])->default('pending');
+            $table->string('status', 50)->default('pending');
             $table->timestamps();
         });
     }

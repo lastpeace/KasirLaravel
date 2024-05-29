@@ -15,6 +15,12 @@
             overflow: hidden;
             position: relative;
         }
+
+        .quantity-btn {
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+        }
     </style>
 
     <div class="text-2xl font-semibold px-4 py-4">Menu</div>
@@ -45,11 +51,12 @@
                                 <div class="flex flex-col mt-3 ml-4">
                                     <div class="text-base font-medium">{{ $product->name }}</div>
                                     <div class="mt-2.5 font-light">{{ number_format($product->price, 0, '', '.') }}</div>
-                                    <div
-                                        class="flex justify-center mt-5 bg-indigo-700 text-white rounded-full whitespace-nowrap cursor-pointer">
-                                        <button
-                                            onclick="addToCart('{{ $product->id }}', '{{ asset($product->image) }}', '{{ $product->name }}', {{ $product->price }})"
-                                            class="px-4 py-3">{{ __('Tambahkan') }}</button>
+                                    <div class="flex justify-between mt-5">
+                                        <div>
+                                            <button
+                                                onclick="addToCart('{{ $product->id }}', '{{ asset($product->image) }}', '{{ $product->name }}', {{ $product->price }})"
+                                                class="px-4 py-3 bg-indigo-700 text-white rounded-full">{{ __('Tambahkan') }}</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -63,9 +70,10 @@
 
             {{-- Bagian kanan --}}
             <div class="w-full md:w-[10%] mt-4 ml-10 ">
+                <div class="flex text-xl font-medium">Keranjang</div>
                 <div
                     class="container cart flex flex-col px-7 py-6 text-black bg-white rounded-lg border border-solid border-neutral-400">
-                    <div class="flex text-xl font-medium">Keranjang</div>
+
                     <div id="cart-items" class="flex-grow overflow-y-auto max-h-[400px]"></div>
                     <div class="total-container">
                         <div
@@ -144,6 +152,26 @@
             updateCartDisplay();
         }
 
+        function increaseQuantity(productId) {
+            let cart = getCart();
+            let itemIndex = cart.findIndex(item => item.product_id === productId);
+            if (itemIndex !== -1) {
+                cart[itemIndex].quantity++;
+                setCart(cart);
+                updateCartDisplay();
+            }
+        }
+
+        function decreaseQuantity(productId) {
+            let cart = getCart();
+            let itemIndex = cart.findIndex(item => item.product_id === productId);
+            if (itemIndex !== -1 && cart[itemIndex].quantity > 1) {
+                cart[itemIndex].quantity--;
+                setCart(cart);
+                updateCartDisplay();
+            }
+        }
+
         function getCart() {
             let cart = localStorage.getItem('cart');
             return cart ? JSON.parse(cart) : [];
@@ -192,7 +220,11 @@
                 </div>
             </div>
             <div class="flex gap-5 justify-between items-center self-start px-px mt-2 whitespace-nowrap">
-                <div class="justify-center items-center self-stretch px-5 text-base text-center bg-white rounded-md border border-black border-solid h-[45px] w-[45px]">${item.quantity}</div>
+                <div class="flex items-center">
+                    <button class="quantity-btn" onclick="decreaseQuantity('${item.product_id}')">-</button>
+                    <span id="quantity_${item.product_id}" class="mx-2">${item.quantity}</span>
+                    <button class="quantity-btn" onclick="increaseQuantity('${item.product_id}')">+</button>
+                </div>
                 <div class="self-stretch my-auto text-lg font-medium">${totalItemPrice.toLocaleString()}</div>
                 <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/4a26f71d9ca019e294cc9bd96adf2068692e5ad06979f90b0ebd1f55d52a7ddb?apiKey=bb6773fa61624e21adc05bfe1a2741a5&" class="shrink-0 self-stretch my-auto w-6 aspect-square cursor-pointer" onclick="removeProductFromCart('${item.product_id}')"/>
             </div>

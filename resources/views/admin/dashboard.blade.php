@@ -8,9 +8,7 @@
         <div class="sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-[150px] overflow-y-auto text-center bg-indigo-700">
             <div class="text-gray-100 text-xl">
                 <div class="p-2.5 mt-1 flex items-center">
-                    <img loading="lazy"
-                        srcset="https://cdn.builder.io/api/v1/image/assets/TEMP/5cd21c7b2dacf6ee2a2db8fe106e63df6fa845fc03bee0be8d30b8983ec39540?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/5cd21c7b2dacf6ee2a2db8fe106e63df6fa845fc03bee0be8d30b8983ec39540?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/5cd21c7b2dacf6ee2a2db8fe106e63df6fa845fc03bee0be8d30b8983ec39540?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/5cd21c7b2dacf6ee2a2db8fe106e63df6fa845fc03bee0be8d30b8983ec39540?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/5cd21c7b2dacf6ee2a2db8fe106e63df6fa845fc03bee0be8d30b8983ec39540?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/5cd21c7b2dacf6ee2a2db8fe106e63df6fa845fc03bee0be8d30b8983ec39540?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/5cd21c7b2dacf6ee2a2db8fe106e63df6fa845fc03bee0be8d30b8983ec39540?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/5cd21c7b2dacf6ee2a2db8fe106e63df6fa845fc03bee0be8d30b8983ec39540?apiKey=bb6773fa61624e21adc05bfe1a2741a5&"
-                        class="aspect-[1.11] w-[115px]" />
+                    <img loading="lazy" srcset="{{ asset('favicon.png') }}" class="aspect-[1.11] w-[115px]" />
                 </div>
                 <div class="my-2 bg-gray-600 h-[1px]"></div>
             </div>
@@ -58,11 +56,11 @@
                 @foreach ($trendingProducts as $product)
                     <div class="w-1/4 p-4">
                         <div class="bg-white shadow-md rounded-lg p-6">
-                            <img src="{{ $product->image }}" alt="{{ $product->name }}" class="w-full h-auto mb-4">
+                            <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" class="w-full h-auto mb-4">
                             <h2 class="self-start text-sm text-black">{{ $product->name }}</h2>
                             <p class="mt-5 text-neutral-400">Penjualan</p>
                             <p class="mt-4 mr-7 text-red-600 max-md:mr-2.5">
-                                {{ $product->orders->count() }}</p>
+                                {{-- {{ $product->orders->count() }}</p> --}}
                         </div>
                     </div>
                 @endforeach

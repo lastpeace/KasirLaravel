@@ -84,11 +84,21 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                 @if ($reservation->payment)
-                                    {{ $reservation->payment->order->status }}
+                                    @php
+                                        $status = $reservation->payment->status;
+                                        if ($reservation->payment->status == '50%') {
+                                            $order = $reservation->payment->orders->first(); // Ambil order pertama
+                                            if ($order && $order->status == 'pending') {
+                                                $status = 'pending';
+                                            }
+                                        }
+                                    @endphp
+                                    {{ $status }}
                                 @else
                                     <span class="text-gray-500">Belum ada pesanan</span>
                                 @endif
                             </td>
+
                         </tr>
                     @endforeach
                 </tbody>

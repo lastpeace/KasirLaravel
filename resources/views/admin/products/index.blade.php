@@ -13,9 +13,7 @@
         <div class="sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-[150px] overflow-y-auto text-center bg-indigo-700">
             <div class="text-gray-100 text-xl">
                 <div class="p-2.5 mt-1 flex items-center">
-                    <img loading="lazy"
-                        srcset="https://cdn.builder.io/api/v1/image/assets/TEMP/5cd21c7b2dacf6ee2a2db8fe106e63df6fa845fc03bee0be8d30b8983ec39540?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/5cd21c7b2dacf6ee2a2db8fe106e63df6fa845fc03bee0be8d30b8983ec39540?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/5cd21c7b2dacf6ee2a2db8fe106e63df6fa845fc03bee0be8d30b8983ec39540?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/5cd21c7b2dacf6ee2a2db8fe106e63df6fa845fc03bee0be8d30b8983ec39540?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/5cd21c7b2dacf6ee2a2db8fe106e63df6fa845fc03bee0be8d30b8983ec39540?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/5cd21c7b2dacf6ee2a2db8fe106e63df6fa845fc03bee0be8d30b8983ec39540?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/5cd21c7b2dacf6ee2a2db8fe106e63df6fa845fc03bee0be8d30b8983ec39540?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/5cd21c7b2dacf6ee2a2db8fe106e63df6fa845fc03bee0be8d30b8983ec39540?apiKey=bb6773fa61624e21adc05bfe1a2741a5&"
-                        class="aspect-[1.11] w-[115px]" />
+                    <img loading="lazy" srcset="{{ asset('favicon.png') }}" class="aspect-[1.11] w-[115px]" />
                 </div>
                 <div class="my-2 bg-gray-600 h-[1px]"></div>
             </div>
@@ -64,7 +62,7 @@
                         class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 ml-2">Cari</button>
                 </form>
                 <button type="button" onclick="window.location='{{ route('products.create') }}'"
-                    class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700">Tambah Produk</button>
+                    class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700">Tambah Menu</button>
 
             </div>
             <div class="overflow-x-auto ">
@@ -88,7 +86,7 @@
                                 <td class="border px-4 py-2">{{ $product->name }}</td>
                                 <td class="border px-4 py-2 ">{{ $product->description }}</td>
                                 <td class="border px-4 py-2 text-center">
-                                    <img src="{{ $product->image }}" alt="{{ $product->name }}"
+                                    <img src="{{ asset($product->image) }}" alt="{{ $product->name }}"
                                         style="width: 70px; height: auto;">
                                 </td>
                                 <td class="border px-4 py-2 text-center">{{ $product->price }}</td>
@@ -140,8 +138,6 @@
         </div>
     </div>
     <script>
-
-        
         function sortTable(n) {
             var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
             table = document.getElementById("productsTable");

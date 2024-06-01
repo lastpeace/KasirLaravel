@@ -48,22 +48,105 @@
             </div>
         </div>
         <br><br>
+        <style>
+            /* Style untuk kanvas chart */
 
-        <div
-            class=" container mx-auto flex flex-col grow p-4 pb-7 w-full text-base font-bold bg-white shadow-lg max-md:mt-10">
-            <h1 class="text-4xl font-bold text-center mb-8">Trending Products</h1>
-            <div class="flex flex-wrap">
-                @foreach ($trendingProducts as $product)
-                    <div class="w-1/4 p-4">
-                        <div class="bg-white shadow-md rounded-lg p-6">
-                            <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" class="w-full h-auto mb-4">
-                            <h2 class="self-start text-sm text-black">{{ $product->name }}</h2>
-                            <p class="mt-5 text-neutral-400">Penjualan</p>
-                            <p class="mt-4 mr-7 text-red-600 max-md:mr-2.5">
-                                {{-- {{ $product->orders->count() }}</p> --}}
+            canvas {
+                max-width: 400px;
+                margin: auto;
+            }
+        </style>
+
+        <div>
+            <div class="flex justify-center">
+                <div class="w-1/6 mr-7">
+                    <canvas id="dailyOrderChart" width="400" height="400"></canvas>
+                </div>
+                <div class="w-1/4 ml-10">
+                    <canvas id="productTrendChart" width="400" height="400"></canvas>
+                </div>
+            </div>
+            <div class="container mx-auto mt-10">
+                <h1 class="text-3xl font-bold text-center mb-8">Trending Products</h1>
+                <div class="flex flex-wrap justify-center">
+                    @foreach ($trendingProducts as $product)
+                        <div class="w-1/3 p-4">
+                            <div class="bg-white shadow-md rounded-lg p-6 text-center">
+                                <img src="{{ asset('storage/images/' . $product->image) }}" alt="{{ $product->name }}"
+                                    class="w-full h-auto mb-4">
+                                <h2 class="text-sm text-black">{{ $product->name }}</h2>
+                                <p class="text-neutral-400">Penjualan</p>
+                                <p class="text-red-600">{{ $product->orders ? $product->orders->count() : 0 }}</p>
+                            </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            // Data jumlah pesanan per hari
+            const dailyOrdersData = {!! json_encode($dailyOrdersData) !!};
+
+            // Mengambil tanggal dan jumlah pesanan dari data
+            const dates = Object.keys(dailyOrdersData);
+            const orderCounts = Object.values(dailyOrdersData);
+
+            // Konfigurasi chart jumlah pesanan per hari
+            const dailyOrderChartConfig = {
+                type: 'bar',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: 'Jumlah Pesanan',
+                        data: orderCounts,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            };
+
+            // Membuat chart jumlah pesanan per hari
+            const dailyOrderChart = new Chart(document.getElementById('dailyOrderChart'), dailyOrderChartConfig);
+
+            // Data produk yang tren
+            const trendingProducts = {!! json_encode($trendingProducts) !!};
+
+            // Mengambil nama produk dan jumlah pesanan dari data
+            const productNames = trendingProducts.map(product => product.name);
+            const orderCountsTrend = trendingProducts.map(product => product.order_count);
+
+            // Konfigurasi chart tren produk
+            const productTrendChartConfig = {
+                type: 'bar',
+                data: {
+                    labels: productNames,
+                    datasets: [{
+                        label: 'Jumlah Pesanan',
+                        data: orderCountsTrend,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            };
+
+            // Membuat chart tren produk
+            const productTrendChart = new Chart(document.getElementById('productTrendChart'), productTrendChartConfig);
+        </script>
     @endsection

@@ -4,9 +4,7 @@
     <div class="sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-[150px] overflow-y-auto text-center bg-indigo-700">
         <div class="text-gray-100 text-xl">
             <div class="p-2.5 mt-1 flex items-center">
-                <img loading="lazy"
-                    srcset="https://cdn.builder.io/api/v1/image/assets/TEMP/5cd21c7b2dacf6ee2a2db8fe106e63df6fa845fc03bee0be8d30b8983ec39540?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/5cd21c7b2dacf6ee2a2db8fe106e63df6fa845fc03bee0be8d30b8983ec39540?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/5cd21c7b2dacf6ee2a2db8fe106e63df6fa845fc03bee0be8d30b8983ec39540?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/5cd21c7b2dacf6ee2a2db8fe106e63df6fa845fc03bee0be8d30b8983ec39540?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/5cd21c7b2dacf6ee2a2db8fe106e63df6fa845fc03bee0be8d30b8983ec39540?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/5cd21c7b2dacf6ee2a2db8fe106e63df6fa845fc03bee0be8d30b8983ec39540?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/5cd21c7b2dacf6ee2a2db8fe106e63df6fa845fc03bee0be8d30b8983ec39540?apiKey=bb6773fa61624e21adc05bfe1a2741a5&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/5cd21c7b2dacf6ee2a2db8fe106e63df6fa845fc03bee0be8d30b8983ec39540?apiKey=bb6773fa61624e21adc05bfe1a2741a5&"
-                    class="aspect-[1.11] w-[115px]" />
+                <img loading="lazy" srcset="{{ asset('favicon.png') }}" class="aspect-[1.11] w-[115px]" />
             </div>
             <div class="my-2 bg-gray-600 h-[1px]"></div>
         </div>
@@ -136,22 +134,18 @@
                             <input type="number" id="editCapacity" name="capacity"
                                 class="block w-full border-gray-300 rounded-md shadow-sm" required>
                         </div>
-
                         <div class="mb-4">
                             <label class="block text-gray-700">Status</label>
                             <div
                                 class="flex gap-5 justify-between py-2.5 pr-2.5 pl-8 mt-4 text-indigo-700 whitespace-nowrap rounded-lg border border-indigo-700 border-solid max-md:pl-5">
                                 <div class="my-auto">Available</div>
-                                <input type="radio" id="editStatus" name="status" value="available"
+                                <input type="radio" id="editStatusAvailable" name="status" value="available"
                                     class="shrink-0 rounded-md border border-indigo-700 border-solid h-[13px] w-[18px]">
-                                <div class="flex gap-5">
-                                    <div class="my-auto">Full</div>
-                                    <input type="radio" id="editStatus" name="status" value="Full"
-                                        class="shrink-0 rounded-md border border-indigo-700 border-solid h-[13px] w-[18px]">
-                                </div>
+                                <div class="my-auto">Full</div>
+                                <input type="radio" id="editStatusFull" name="status" value="full"
+                                    class="shrink-0 rounded-md border border-indigo-700 border-solid h-[13px] w-[18px]">
                             </div>
                         </div>
-
                         <div class="mb-4">
                             <button type="submit"
                                 class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Save
@@ -161,6 +155,7 @@
                 </div>
             </div>
         </div>
+
         <div id="createModal" class="fixed z-10 bg-black bg-opacity-50 inset-0 overflow-y-auto hidden">
             <div class="flex items-center justify-center min-h-screen">
                 <div class="bg-white rounded-lg p-6 w-full max-w-md">
@@ -186,15 +181,18 @@
                             <div
                                 class="flex gap-5 justify-between py-2.5 pr-2.5 pl-8 mt-4 text-indigo-700 whitespace-nowrap rounded-lg border border-indigo-700 border-solid max-md:pl-5">
                                 <div class="my-auto">Available</div>
-                                <input type="radio" id="createStatus" name="status" value="available"
+                                <input type="radio" id="editStatusAvailable" name="status" value="available"
+                                    {{ $table->status === 'available' ? 'checked' : '' }}
                                     class="shrink-0 rounded-md border border-indigo-700 border-solid h-[13px] w-[18px]">
                                 <div class="flex gap-5">
                                     <div class="my-auto">Full</div>
-                                    <input type="radio" id="createStatus" name="status" value="Full"
+                                    <input type="radio" id="editStatusFull" name="status" value="full"
+                                        {{ $table->status === 'full' ? 'checked' : '' }}
                                         class="shrink-0 rounded-md border border-indigo-700 border-solid h-[13px] w-[18px]">
                                 </div>
                             </div>
                         </div>
+
 
                         <div class="mb-4">
                             <button type="submit"
@@ -214,7 +212,8 @@
                     const editTableId = document.getElementById('editTableId');
                     const editName = document.getElementById('editName');
                     const editCapacity = document.getElementById('editCapacity');
-                    const editStatus = document.getElementById('editStatus');
+                    const editStatusAvailable = document.getElementById('editStatusAvailable');
+                    const editStatusFull = document.getElementById('editStatusFull');
 
                     editButtons.forEach(button => {
                         button.addEventListener('click', function() {
@@ -222,7 +221,11 @@
                             editTableId.value = table.id;
                             editName.value = table.name;
                             editCapacity.value = table.capacity;
-                            editStatus.value = table.status;
+                            if (table.status === 'available') {
+                                editStatusAvailable.checked = true;
+                            } else if (table.status === 'full') {
+                                editStatusFull.checked = true;
+                            }
                             editModal.classList.remove('hidden');
                         });
                     });
@@ -238,7 +241,8 @@
                         const data = {
                             name: editName.value,
                             capacity: editCapacity.value,
-                            status: editStatus.value,
+                            status: editStatusAvailable.checked ? 'available' :
+                            'full', // or use editStatusFull.checked
                             _token: '{{ csrf_token() }}',
                             _method: 'PUT'
                         };
@@ -263,6 +267,7 @@
                             });
                     });
                 });
+
 
                 document.addEventListener('DOMContentLoaded', function() {
                     const createModal = document.getElementById('createModal');

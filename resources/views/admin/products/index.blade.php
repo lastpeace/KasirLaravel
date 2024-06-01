@@ -1,14 +1,6 @@
 @extends('layouts.app2')
 
 @section('content')
-    <div class="container mx-auto ml-auto px-20  ">
-        <div class="flex gap-5 self-start text-base font-bold text-neutral-400">
-            <button id="semuaBtn" class="flex flex-col font-semibold ">Semua</button>
-            <button id="minumanBtn" class="flex flex-col font-semibold ">Minuman</button>
-            <button id="makananBtn" class="flex flex-col font-semibold ">Makanan</button>
-            <button id="snackBtn" class="flex flex-col font-semibold ">Snack</button>
-        </div>
-    </div>
     <div class="flex ">
         <div class="sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-[150px] overflow-y-auto text-center bg-indigo-700">
             <div class="text-gray-100 text-xl">
@@ -65,6 +57,18 @@
                     class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700">Tambah Menu</button>
 
             </div>
+            <div class="w-full flex flex-col md:flex-row-reverse item-center justify-center">
+                <div class="w-full md:w-[347px] px-4 py-2 mt-4 md:mt-0">
+                    <button id="semuaBtn"
+                        class="w-40 h-[42px] bg-gray-200 text-zinc-600 rounded-[50px] mb-2 md:mb-0">Semua</button>
+                    <button id="minumanBtn"
+                        class="w-40 h-[42px] bg-gray-200 text-zinc-600 rounded-[50px] mb-2 md:mb-0">Minuman</button>
+                    <button id="makananBtn"
+                        class="w-40 h-[42px] bg-gray-200 text-zinc-600 rounded-[50px] mb-2 md:mb-0">Makanan</button>
+                    <button id="snackBtn"
+                        class="w-40 h-[42px] bg-gray-200 text-zinc-600 rounded-[50px] mb-2 md:mb-0">Snack</button>
+                </div>
+            </div>
             <div class="overflow-x-auto ">
                 <table id="productsTable" class="min-w-full bg-white border border-gray-200">
                     <thead>
@@ -86,7 +90,7 @@
                                 <td class="border px-4 py-2">{{ $product->name }}</td>
                                 <td class="border px-4 py-2 ">{{ $product->description }}</td>
                                 <td class="border px-4 py-2 text-center">
-                                    <img src="{{ asset($product->image) }}" alt="{{ $product->name }}"
+                                    <img src="{{ asset('storage/images/' . $product->image) }}" alt="{{ $product->name }}"
                                         style="width: 70px; height: auto;">
                                 </td>
                                 <td class="border px-4 py-2 text-center">{{ $product->price }}</td>
@@ -176,9 +180,11 @@
                 }
             }
         }
+
+
         document.getElementById("semuaBtn").addEventListener("click", function() {
             document.querySelectorAll(".menu-item").forEach(function(item) {
-                item.style.display = "block";
+                item.style.display = "table-row"; // Change 'block' to 'table-row'
             });
         });
 
@@ -187,7 +193,7 @@
                 item.style.display = "none";
             });
             document.querySelectorAll(".minuman").forEach(function(item) {
-                item.style.display = "block";
+                item.style.display = "table-row"; // Change 'block' to 'table-row'
             });
         });
 
@@ -196,7 +202,7 @@
                 item.style.display = "none";
             });
             document.querySelectorAll(".snack").forEach(function(item) {
-                item.style.display = "block";
+                item.style.display = "table-row"; // Change 'block' to 'table-row'
             });
         });
 
@@ -205,7 +211,7 @@
                 item.style.display = "none";
             });
             document.querySelectorAll(".makanan").forEach(function(item) {
-                item.style.display = "block";
+                item.style.display = "table-row"; // Change 'block' to 'table-row'
             });
         });
     </script>

@@ -40,19 +40,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Route for admin dashboard
     Route::get('/admin/dashboard', function () {
         $user = auth()->user();
-        $orders = Order::all();
-        $orderCounts = $orders->groupBy(function ($order) {
-            return $order->created_at->format('Y-m-d');
-        })->map->count();
-        $totalOrders = $orders->count();
+        $totalOrders = Order::count();
         $trendingProducts = Product::select('products.*', DB::raw('COUNT(orders.id) as order_count'))
             ->leftJoin('orders', 'products.id', '=', 'orders.product_id')
             ->groupBy('products.id')
             ->orderByDesc('order_count')
-            ->take(3) // Adjust the number of products you want to display
+            ->take(3)
             ->get();
-        return view('admin.dashboard', compact('user', 'totalOrders', 'trendingProducts'));
+        $dailyOrdersData = Order::all();
+
+        return view('admin.dashboard', compact('user', 'totalOrders', 'trendingProducts', 'dailyOrdersData'));
     })->name('admin.dashboard');
+
 
     // Route for customer dashboard
     Route::get('/customer/dashboard', function () {

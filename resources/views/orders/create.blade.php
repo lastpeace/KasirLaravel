@@ -45,7 +45,7 @@
                                 class="flex flex-col px-4 py-4 bg-white rounded-2xl border border-solid border-neutral-400">
                                 <div class="flex w-full">
                                     <img id="imagePreview_{{ $product->id }}" loading="lazy"
-                                        src="{{ asset($product->image) }}"
+                                        src="{{ asset('storage/images/' . $product->image) }}"
                                         class="self-center aspect-square w-[180px] rounded-2xl" />
                                 </div>
                                 <div class="flex flex-col mt-3 ml-4">
@@ -54,7 +54,7 @@
                                     <div class="flex justify-between mt-5">
                                         <div>
                                             <button
-                                                onclick="addToCart('{{ $product->id }}', '{{ asset($product->image) }}', '{{ $product->name }}', {{ $product->price }})"
+                                                onclick="addToCart('{{ $product->id }}', '{{ asset('storage/images/' . $product->image) }}', '{{ $product->name }}', {{ $product->price }})"
                                                 class="px-4 py-3 bg-indigo-700 text-white rounded-full">{{ __('Tambahkan') }}</button>
                                         </div>
                                     </div>

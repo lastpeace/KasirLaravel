@@ -183,37 +183,59 @@
                                 <div class="w-1/2 p-2">
                                     <div class="self-start text-xs text-black">Tanggal</div>
                                     <div id="detailDate"
-                                        class="justify-center items-start px-4 py-3 text-indigo-700 rounded-lg border border-indigo-700">
+                                        class="justify-center items-start px-4 py-3 text-slate-700 rounded-lg border border-slate-700">
                                     </div>
                                 </div>
                                 <div class="w-1/2 p-2">
                                     <div class="self-start mt-2 text-xs text-black">Jumlah orang</div>
                                     <div id="detailPeople"
-                                        class="justify-center items-start px-4 py-3 text-indigo-700 rounded-lg border border-indigo-700">
+                                        class="justify-center items-start px-4 py-3 text-slate-700 rounded-lg border border-slate-700">
                                     </div>
                                 </div>
                                 <div class="w-full p-2">
                                     <div class="self-start mt-1.5 text-xs text-black">Catatan</div>
                                     <div id="detailNotes"
-                                        class="justify-center px-4 py-7 mt-2 text-xs text-indigo-700 rounded-lg border border-indigo-700 w-full">
+                                        class="justify-center px-4 py-7 mt-2 text-xs text-slate-700 rounded-lg border border-slate-700 w-full">
                                     </div>
                                 </div>
                                 <div class="w-1/2 p-2">
                                     <div class="self-start text-xs text-black">Jam</div>
                                     <div id="detailTime"
-                                        class="justify-center items-start px-4 py-3 text-indigo-700 rounded-lg border border-indigo-700">
+                                        class="justify-center items-start px-4 py-3 text-slate-700 rounded-lg border border-slate-700">
                                     </div>
                                 </div>
                                 <div class="w-1/2 p-2">
                                     <div class="self-start mt-2 text-xs text-black">Meja</div>
                                     <div id="detailTable"
-                                        class="justify-center items-start px-4 py-3 text-indigo-700 rounded-lg border border-indigo-700">
+                                        class="justify-center items-start px-4 py-3 text-slate-700 rounded-lg border border-slate-700">
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="flex flex-col w-full md:w-1/4">
                             <div class="text-sm font-semibold text-neutral-500">Pesanan</div>
+                            @forelse($userOrders as $order)
+                                <div class="flex gap-5 max-md:flex-wrap">
+                                    <div class="flex flex-auto gap-5 ">
+                                        <img loading="lazy" src="{{ asset('storage/images/' . $order->product->image) }}"
+                                            class="shrink-0 aspect-square w-[75px]" />
+                                        <div class="flex flex-col self-start mt-2.5">
+                                            <div class="text-base font-medium">{{ $order->product->name }}</div>
+                                            <div class="mt-3.5 text-sm font-light">x {{ $order->quantity }}</div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="flex gap-5 justify-between items-center self-start px-px mt-2 whitespace-nowrap">
+                                        <div class="self-stretch my-auto text-lg font-medium">
+                                            {{ number_format($order->total_price, 0, '', '.') }}
+                                        </div>
+                                    </div>
+                                </div>
+                            @empty
+                                <div class="flex gap-5 justify-between">
+                                    <div class="text-red-500">No pending orders found for this reservation.</div>
+                                </div>
+                            @endforelse
                             <div id="detailOrders" class="mt-2 space-y-2"></div>
                             <div class="mt-10 text-sm font-semibold text-neutral-500">Rincian Pembayaran</div>
                             <div id="detailPayments" class="mt-2 space-y-2"></div>
@@ -227,6 +249,22 @@
             </div>
         </div>
     </div>
+
+    <div id="myModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+        <div class="bg-white rounded-lg max-w-[90%] md:max-w-2xl w-full p-6 mx-4 md:mx-0">
+            <div class="flex justify-between items-center">
+                <h2 class="text-lg font-semibold text-indigo-700">Catatan Reservasi</h2>
+                <button onclick="closeModal()" class="focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div id="modalText" class="mt-4 text-sm text-gray-700"></div>
+        </div>
+    </div>
+
     <script>
         function openModal(notes) {
             var modal = document.getElementById("myModal");
@@ -254,19 +292,6 @@
             document.getElementById("detailTable").innerHTML = `Meja ${reservation.table_number}`;
             document.getElementById("detailNotes").innerHTML = reservation.notes || 'Tidak ada catatan';
 
-            var ordersContainer = document.getElementById("detailOrders");
-            ordersContainer.innerHTML = '';
-            if (reservation.orders && reservation.orders.length > 0) {
-                reservation.orders.forEach(order => {
-                    var orderDiv = document.createElement('div');
-                    orderDiv.className = 'px-4 py-2 text-xs text-indigo-700 rounded-lg border border-indigo-700';
-                    orderDiv.textContent = `${order.product.name} - ${order.quantity} x Rp ${order.total_price}`;
-                    ordersContainer.appendChild(orderDiv);
-                });
-            } else {
-                ordersContainer.innerHTML =
-                    '<div class="px-4 py-2 text-xs text-indigo-700 rounded-lg border border-indigo-700">Tidak ada pesanan</div>';
-            }
 
             // Populate payments
             var paymentsContainer = document.getElementById("detailPayments");
@@ -275,7 +300,7 @@
                 reservation.payments.forEach(payment => {
                     var paymentDiv = document.createElement('div');
                     paymentDiv.className = 'px-4 py-2 text-xs text-indigo-700 rounded-lg border border-indigo-700';
-                    paymentDiv.innerHTML = `Pembayaran - Rp ${payment.total_price} x ${payment.order} `;
+                    paymentDiv.textContent = `Pembayaran - Rp ${payment.total_price} x ${payment.status}`;
                     paymentsContainer.appendChild(paymentDiv);
                 });
             } else {

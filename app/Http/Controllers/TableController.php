@@ -49,8 +49,8 @@ class TableController extends Controller
         $table->name = $request->name;
         $table->capacity = $request->capacity;
         $table->status = $request->status;
-        $table->save();
 
+        $table->save();
         return response()->json(['success' => true]);
     }
 

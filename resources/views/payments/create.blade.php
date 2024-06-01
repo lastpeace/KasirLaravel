@@ -76,7 +76,7 @@
                             @forelse($userOrders as $order)
                                 <div class="flex gap-5 max-md:flex-wrap">
                                     <div class="flex flex-auto gap-5 ">
-                                        <img loading="lazy" src="{{ asset($order->product->image) }}"
+                                        <img loading="lazy" src="{{ asset('storage/images/' . $order->product->image) }}"
                                             class="shrink-0 aspect-square w-[75px]" />
                                         <div class="flex flex-col self-start mt-2.5">
                                             <div class="text-base font-medium">{{ $order->product->name }}</div>
@@ -148,15 +148,14 @@
                             <div class="flex flex-col pl-5 mt-6 text-base max-md:max-w-full">
                                 <div class="max-md:max-w-full">Total Pesanan </div>
                                 <div class="mt-8 max-md:max-w-full" id="paymentMethod">Metode Pembayaran - Bayar Penuh</div>
-                                <div id="paymentDetails" class="self-end mt-0 text-base font-light text-black">
-                                </div>
+                                <div id="paymentDetails" class=""></div>
                             </div>
                         </div>
                     </div>
                     <div
                         class="flex flex-col px-16 mt-24 text-xl font-semibold text-black whitespace-nowrap max-md:px-5 max-md:mt-10 max-md:max-w-full">
                         <div class="z-10 max-md:max-w-full">TOTAL</div>
-                        <div class="self-end mt-0" id="totalPayment">{{ number_format($totalKeseluruhan, 0, '', '.') }}
+                        <div class="self-end mt-0" id="totalPayment">
                         </div>
                     </div>
                     <div class="justify-center items-center self-center px-16 py-5 mt-5 max-w-full text-lg font-medium text-center text-white bg-black rounded-[50px] w-[447px] max-md:px-5"
@@ -179,27 +178,48 @@
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <div class="sm:flex sm:items-start">
                         <div
-                            class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
-                            <!-- Icon QRIS -->
-                            <img src="{{ asset('favicon.png') }}" alt="">
+                            class="mx-auto flex-shrink-0 flex items-center justify-center h-64 w-64 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <!-- QRIS Icon -->
+                            <img src="{{ asset('qris.png') }}" alt="QRIS Icon" class="">
                         </div>
+                        <h3 class="text-center leading-6 font-medium text-gray-900" id="modal-title">
+                            SCAN DI SINI
+                        </h3>
                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                                Pindai QRIS ini
-                            </h3>
-                            <div class="mt-2">
-                                <p class="text-sm text-gray-500">
-                                    Pindai kode QR di atas dengan aplikasi e-wallet Anda untuk melakukan pembayaran.
+
+                            <div class="mt-2 self-start">
+                                <p class="text-lg text-gray-500 font-semibold">
+                                    Instruksi Penggunaan Kode QRIS:
+                                </p>
+                                <p class="text-sm text-gray-500 text-justify">
+                                    1. Pastikan Anda memiliki aplikasi pembayaran yang mendukung pembayaran melalui
+                                    QRIS.<br>
+                                    2. Buka aplikasi tersebut dan pilih menu 'Pembayaran QRIS'.<br>
+                                    3. Pindai kode QR yang ditampilkan di halaman ini dengan menggunakan fitur 'Scan QR'
+                                    pada aplikasi pembayaran Anda.<br>
+                                    4. Masukkan harga yang harus dibayar sesuai dengan informasi yang tersedia di halaman
+                                    ini.<br>
+                                    5. Konfirmasikan pembayaran setelah melakukan pengisian jumlah pembayaran.
+                                </p>
+                                <p class="text-lg text-gray-500 font-semibold mt-4">
+                                    Informasi Harga: {{ number_format($totalKeseluruhan, 0, '', '.') }}
+                                </p>
+                                <p class="text-lg text-gray-500">
+                                    Harga yang harus dibayar:
+                                <div id="paymentAmountInModal" class=""></div>
                                 </p>
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <!-- Tombol Sudah Transfer -->
                     <button type="button" onclick="submitPaymentForm()"
                         class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm">
                         Sudah Transfer
                     </button>
+                    <!-- Tombol Batal -->
                     <button type="button" onclick="closeModal()"
                         class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
                         Batal
@@ -209,10 +229,13 @@
         </div>
     </div>
 
+
+
+
     <script>
         function updatePaymentDetails() {
             let totalPrice = parseFloat(document.getElementById('totalPrice').innerText.replaceAll('.',
-            '')); // Mengambil total harga
+                '')); // Mengambil total harga
             let paymentMethod = document.querySelector('input[name="status"]:checked').value;
             let paymentDetails = document.getElementById('paymentDetails');
             let paymentMethodText = document.getElementById('paymentMethod');
@@ -227,11 +250,15 @@
             }
 
             paymentDetails.innerText = paymentAmount.toLocaleString();
+            const totalPaymentElement = document.getElementById('totalPayment');
+            totalPaymentElement.innerText = paymentAmount.toLocaleString();
         }
 
         function openModal() {
+            let paymentDetailsValue = document.getElementById('paymentDetails').innerText;
             document.getElementById('qrisModal').classList.remove('hidden');
             document.getElementById('qrisModal').classList.add('fixed');
+            document.getElementById('paymentAmountInModal').innerText = paymentDetailsValue;
         }
 
         function closeModal() {

@@ -24,20 +24,10 @@ use Illuminate\Support\Facades\DB;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-
-Route::get('/', function () {
-    return view('dashboard');
-})->name('dashboard');
-
-Route::get('/login', function () {
-    return view('auth.login');
-});
-
-
+Route::view('/', 'dashboard')->name('dashboard');
+Route::view('/login', 'auth.login');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    // Route for admin dashboard
     Route::get('/admin/dashboard', function () {
         $user = auth()->user();
         $totalOrders = Order::count();
@@ -52,54 +42,30 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('admin.dashboard', compact('user', 'totalOrders', 'trendingProducts', 'dailyOrdersData'));
     })->name('admin.dashboard');
 
-
-    // Route for customer dashboard
     Route::get('/customer/dashboard', function () {
         $user = auth()->user();
-        return view('customer.dashboard')->with('user', $user);
+        return view('customer.dashboard', compact('user'));
     })->name('customer.dashboard');
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-    Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
-    Route::post('/products', [ProductController::class, 'store'])->name('products.store');
-    Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
-    Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
-    Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
-    Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
-});
 
+    Route::resource('products', ProductController::class);
+    Route::get('/admin/products', [ProductController::class, 'indexForAdmin'])->name('admin.products.index');
 
-Route::get('/admin/products', [ProductController::class, 'indexForAdmin'])->name('admin.products.index');
-Route::get('/admin/reservations', [ReservationController::class, 'indexForAdmin'])->name('admin.reservations.index');
+    Route::resource('reservations', ReservationController::class);
+    Route::get('/admin/reservations', [ReservationController::class, 'indexForAdmin'])->name('admin.reservations.index');
 
+    Route::resource('orders', OrderController::class);
 
-Route::middleware('auth')->group(function () {
-    Route::resource('orders', 'App\Http\Controllers\OrderController');
+    Route::resource('tables', TableController::class);
 
-    Route::resource('reservations', 'App\Http\Controllers\ReservationController');
-    Route::resource('tables', 'App\Http\Controllers\TableController');
+    Route::resource('payments', PaymentController::class);
 
-});
-
-Route::middleware('auth')->group(function () {
-    Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
-    Route::get('/payments/create/', [PaymentController::class, 'create'])->name('payments.create');
-    Route::post('/payments/store/', [PaymentController::class, 'store'])->name('payments.store');
-    Route::get('/payments/{payment}', [PaymentController::class, 'show'])->name('payments.show');
-    Route::get('/payments/{payment}/edit', [PaymentController::class, 'edit'])->name('payments.edit');
-    Route::put('/payments/{payment}', [PaymentController::class, 'update'])->name('payments.update');
-    Route::delete('/payments/{payment}', [PaymentController::class, 'destroy'])->name('payments.destroy');
-
-});
-
-
-
-
-Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
-require __DIR__ . '/auth.php';
+
 Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
 Route::post('/register', [RegisteredUserController::class, 'store']);
+
+require __DIR__ . '/auth.php';

@@ -10,8 +10,8 @@
         </div>
         <div
             class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-neutral-50 text-white item">
-            <i class="bi bi-house-door-fill hover:text-indigo-700"><a href="{{ route('admin.dashboard') }}"
-                    class="text-[15px] ml-4 text-gray-200 font-bold">Home</a></i>
+            <i class="bi bi-house-door-fill hover:text-indigo-700"></i>
+            <a href="{{ route('admin.dashboard') }}" class="text-[15px] ml-4 text-gray-200 font-bold">Home</a>
         </div>
         <div class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
             <i class="bi bi-bookmark-fill"></i>
@@ -25,10 +25,8 @@
             <i class="bi bi-bookmark-fill"></i>
             <a class="text-[15px] ml-4 text-gray-200 font-bold" href="{{ route('tables.index') }}">Meja</a>
         </div>
-        <div class="my-4 bg-gray-600 h-[1px]"></div>
-        <div class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
-            <i class="bi bi-box-arrow-in-right"></i>
-        </div>
+        <div class="my-4 bg-black h-[1px]"></div>
+
         <div class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
             <i class="bi bi-box-arrow-in-right"></i>
             <form id="logout-form" method="POST" action="{{ route('logout') }}">
@@ -36,7 +34,10 @@
                 <button type="submit" class="text-[15px] ml-4 text-gray-200 font-bold">Logout</button>
             </form>
         </div>
+
     </div>
+
+
     <div class="container mx-auto ml-auto px-20">
         <div class="flex gap-5 self-start mt-8 text-2xl font-semibold text-black">
             <div class="flex-auto">Meja</div>

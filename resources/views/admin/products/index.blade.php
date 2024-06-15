@@ -30,11 +30,8 @@
                 <i class="bi bi-bookmark-fill"></i>
                 <a class="text-[15px] ml-4 text-gray-200 font-bold" href="{{ route('tables.index') }}">Meja</a>
             </div>
-            <div class="my-4 bg-gray-600 h-[1px]"></div>
-            <div
-                class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
-                <i class="bi bi-box-arrow-in-right"></i>
-            </div>
+            <div class="my-4 bg-black h-[1px]"></div>
+
             <div
                 class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
                 <i class="bi bi-box-arrow-in-right"></i>
@@ -46,16 +43,18 @@
 
         </div>
         <div class="container mx-auto ml-auto px-20 ">
-            <h1 class="text-2xl font-semibold mb-4">Menu</h1>
-            <div class="">
-                <form action="{{ route('admin.products.index') }}" method="GET">
+            <div class="flex justify-between items-center mt-6 mb-4">
+                <h1 class="text-2xl font-semibold">Menu</h1>
+                <form action="{{ route('admin.products.index') }}" method="GET" class="flex">
                     <input type="text" name="search" placeholder="Cari produk..." class="border px-2 py-1 rounded-md">
                     <button type="submit"
                         class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 ml-2">Cari</button>
                 </form>
-                <button type="button" onclick="window.location='{{ route('products.create') }}'"
-                    class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700">Tambah Menu</button>
 
+            </div>
+            <div class="flex justify-between self-end mt-6 mb-4">
+                <button type="button" onclick="window.location='{{ route('products.create') }}'"
+                    class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 ml-2">Tambah Menu</button>
             </div>
             <div class="w-full flex flex-col md:flex-row-reverse item-center justify-center">
                 <div class="w-full md:w-[347px] px-4 py-2 mt-4 md:mt-0">
@@ -93,7 +92,8 @@
                                     <img src="{{ asset('storage/images/' . $product->image) }}" alt="{{ $product->name }}"
                                         style="width: 70px; height: auto;">
                                 </td>
-                                <td class="border px-4 py-2 text-center">{{ $product->price }}</td>
+                                <td class="border px-4 py-2 text-center">
+                                    Rp {{ number_format($product->price, 0, '', '.') }}</td>
                                 <td class="border px-4 py-2 text-center">{{ $product->type }}</td>
                                 <td class="border px-4 py-2 text-center">
                                     <span
@@ -103,27 +103,23 @@
                                     </span>
                                 </td>
                                 <td class="border px-4 py-2 text-center">
-                                    <form action="{{ route('products.edit', $product->id) }}" method="GET"
-                                        class="inline-block">
-                                        <button type="submit" class="text-blue-600 hover:text-blue-900 focus:outline-none">
-                                            <svg class="h-8 w-8 text-slate-900" viewBox="0 0 24 24" stroke-width="2"
-                                                stroke="currentColor" fill="none" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z" />
-                                                <path d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
-                                                <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
-                                                <line x1="16" y1="5" x2="19" y2="8" />
-                                            </svg>
-                                        </button>
-                                    </form>
-
+                                    <a href="{{ route('products.edit', $product->id) }}"
+                                        class="text-blue-600 hover:text-blue-900">
+                                        <svg class="h-6 w-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" />
+                                            <path d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
+                                            <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
+                                            <line x1="16" y1="5" x2="19" y2="8" />
+                                        </svg>
+                                    </a>
                                     <form action="{{ route('products.destroy', $product->id) }}" method="POST"
                                         class="inline-block">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="text-red-600 hover:text-red-900 ml-2"
-                                            onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini?')"><svg
-                                                class="h-8 w-8 text-slate-900" viewBox="0 0 24 24" fill="none"
+                                            onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini?')">
+                                            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none"
                                                 stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                                 stroke-linejoin="round">
                                                 <polyline points="3 6 5 6 21 6" />
@@ -131,7 +127,8 @@
                                                     d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
                                                 <line x1="10" y1="11" x2="10" y2="17" />
                                                 <line x1="14" y1="11" x2="14" y2="17" />
-                                            </svg></button>
+                                            </svg>
+                                        </button>
                                     </form>
                                 </td>
                             </tr>

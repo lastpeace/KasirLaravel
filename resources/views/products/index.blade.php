@@ -23,7 +23,8 @@
                         <div class="flex flex-col mt-5 menu-item {{ strtolower($item->type) }} ">
                             <div class="flex flex-row px-4 py-2 bg-white rounded-2xl">
                                 <div class="flex flex-col w-6/12 mr-4">
-                                    <img loading="lazy" src="{{ $item->image }}" class="max-w-full" />
+                                    <img loading="lazy" src="{{ asset('storage/images/' . $item->image) }}"
+                                        class="max-w-full" />
                                 </div>
                                 <div class="flex flex-col flex-grow ml-4 w-6/12">
                                     <div class="text-xl font-medium">{{ $item->name }}</div>

@@ -235,11 +235,11 @@
                         <div><a href="#">Beranda</a></div>
                         <div class="mt-7"><a href="{{ route('products.index') }}">Menu</a></div>
                         <div class="mt-7"><a href="{{ route('orders.create') }}">Reservasi</a></div>
-                        <div class="mt-7"><a href="#tentangkami">Tentang Kami</a></div>
-                        <div class="mt-6"><a href="#kontak">Kontak</a></div>
+                        <div class="mt-7"><a href="{{ route('customer.dashboard') }}#tentangkami">Tentang Kami</a></div>
+                        <div class="mt-6"><a href="{{ route('customer.dashboard') }}#kontak">Kontak</a></div>
                     </div>
                 </div>
-                <div class="flex flex-col ml-5 w-[44%] max-md:ml-0 max-md:w-full">
+                <div class="flex flex-col ml-5 w-[44%] max-md:ml-0 max-md:w-full" id="kontak">
                     <div
                         class="flex flex-col self-stretch my-auto text-lg text-justify text-white whitespace-nowrap max-md:mt-10">
                         <div class="flex gap-5">

@@ -25,10 +25,8 @@
             <i class="bi bi-bookmark-fill"></i>
             <a class="text-[15px] ml-4 text-gray-200 font-bold" href="{{ route('tables.index') }}">Meja</a>
         </div>
-        <div class="my-4 bg-gray-600 h-[1px]"></div>
-        <div class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
-            <i class="bi bi-box-arrow-in-right"></i>
-        </div>
+        <div class="my-4 bg-black h-[1px]"></div>
+
         <div class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
             <i class="bi bi-box-arrow-in-right"></i>
             <form id="logout-form" method="POST" action="{{ route('logout') }}">
@@ -38,6 +36,7 @@
         </div>
 
     </div>
+
     <div class="container mx-auto ml-auto px-20">
         <div class="flex gap-5 self-start mt-8 text-2xl font-semibold text-black">
 
@@ -164,82 +163,81 @@
             </div>
             <div class="flex flex-col items-start mt-4 w-full overflow-y-auto max-h-[80vh]">
                 <div class="mt-4 w-full">
-                    <div class="flex gap-5 md:flex-col md:gap-0">
-                        <div class="flex flex-wrap max-md:max-w-full relative px-4 md:px-10">
+                    <div class="flex gap-5 flex-wrap md:flex-col md:gap-0">
+                        <div class="flex flex-wrap relative">
                             <div id="detailId" class="text-sm font-semibold text-neutral-500"></div>
                             <div class="w-full p-2">
                                 <div class="self-start mt-4 text-xs text-black">Nama</div>
-                                <div id="detailName"
-                                    class="px-4 py-5 mt-1.5 rounded-lg border border-black border-solid w-full">
-                                </div>
+                                <div id="detailName" class="px-4 py-5 mt-1.5 rounded-lg border border-black w-full"></div>
                             </div>
                             <div class="w-full p-2">
                                 <div class="self-start mt-1.5 text-xs text-black">No Telepon</div>
-                                <div id="detailPhone"
-                                    class="px-4 py-5 mt-1.5 rounded-lg border border-black border-solid w-full">
+                                <div id="detailPhone" class="px-4 py-5 mt-1.5 rounded-lg border border-black w-full">
                                 </div>
                             </div>
-                            <div class="flex flex-wrap w-full px-4 md:px-10">
-                                <div class="w-1/2 p-2">
+                            <div class="flex flex-wrap w-full">
+                                <div class="w-1/2 p-2 flex flex-col">
                                     <div class="self-start text-xs text-black">Tanggal</div>
                                     <div id="detailDate"
-                                        class="justify-center items-start px-4 py-3 text-slate-700 rounded-lg border border-slate-700">
+                                        class="flex-1 px-4 py-3 mt-1.5 rounded-lg border border-black text-slate-700">
                                     </div>
                                 </div>
-                                <div class="w-1/2 p-2">
-                                    <div class="self-start mt-2 text-xs text-black">Jumlah orang</div>
+                                <div class="w-1/2 p-2 flex flex-col">
+                                    <div class="self-start text-xs text-black mt-1.5">Jumlah orang</div>
                                     <div id="detailPeople"
-                                        class="justify-center items-start px-4 py-3 text-slate-700 rounded-lg border border-slate-700">
+                                        class="flex-1 px-4 py-3 mt-1.5 rounded-lg border border-black text-slate-700">
                                     </div>
                                 </div>
-                                <div class="w-full p-2">
-                                    <div class="self-start mt-1.5 text-xs text-black">Catatan</div>
-                                    <div id="detailNotes"
-                                        class="justify-center px-4 py-7 mt-2 text-xs text-slate-700 rounded-lg border border-slate-700 w-full">
-                                    </div>
-                                </div>
-                                <div class="w-1/2 p-2">
+                            </div>
+
+                            <div class="w-full p-2">
+                                <div class="self-start mt-1.5 text-xs text-black">Catatan</div>
+                                <div id="detailNotes"
+                                    class="px-4 py-7 mt-2 rounded-lg border border-black text-slate-700"></div>
+                            </div>
+                            <div class="flex flex-wrap w-full">
+                                <div class="w-1/2 p-2 flex flex-col">
                                     <div class="self-start text-xs text-black">Jam</div>
                                     <div id="detailTime"
-                                        class="justify-center items-start px-4 py-3 text-slate-700 rounded-lg border border-slate-700">
+                                        class="flex-1 px-4 py-3 mt-1.5 rounded-lg border border-black text-slate-700">
                                     </div>
                                 </div>
-                                <div class="w-1/2 p-2">
-                                    <div class="self-start mt-2 text-xs text-black">Meja</div>
+                                <div class="w-1/2 p-2 flex flex-col">
+                                    <div class="self-start text-xs text-black mt-1.5">Meja</div>
                                     <div id="detailTable"
-                                        class="justify-center items-start px-4 py-3 text-slate-700 rounded-lg border border-slate-700">
+                                        class="flex-1 px-4 py-3 mt-1.5 rounded-lg border border-black text-slate-700">
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="flex flex-col w-full md:w-1/4">
-                            <div class="text-sm font-semibold text-neutral-500">Pesanan</div>
+                            <div class="text-sm font-semibold text-neutral-500">Pesanan</div> <br>
                             @forelse($userOrders as $order)
-                                <div class="flex gap-5 max-md:flex-wrap">
-                                    <div class="flex flex-auto gap-5 ">
+                                <div class="flex flex-col md:flex-row justify-between gap-5 mb-4">
+                                    <div class="flex gap-5">
                                         <img loading="lazy" src="{{ asset('storage/images/' . $order->product->image) }}"
-                                            class="shrink-0 aspect-square w-[75px]" />
-                                        <div class="flex flex-col self-start mt-2.5">
+                                            class="aspect-square w-[100px]" />
+                                        <div class="flex flex-col mt-2.5">
                                             <div class="text-base font-medium">{{ $order->product->name }}</div>
                                             <div class="mt-3.5 text-sm font-light">x {{ $order->quantity }}</div>
                                         </div>
                                     </div>
-                                    <div
-                                        class="flex gap-5 justify-between items-center self-start px-px mt-2 whitespace-nowrap">
-                                        <div class="self-stretch my-auto text-lg font-medium">
-                                            {{ number_format($order->total_price, 0, '', '.') }}
-                                        </div>
+                                    <div class="flex items-center justify-end mt-2 md:mt-0">
+                                        <div class="text-lg font-medium">
+                                            {{ number_format($order->total_price, 0, '', '.') }}</div>
                                     </div>
                                 </div>
                             @empty
-                                <div class="flex gap-5 justify-between">
-                                    <div class="text-red-500">No pending orders found for this reservation.</div>
-                                </div>
+                                <div class="text-red-500">No pending orders found for this reservation.</div>
                             @endforelse
                             <div id="detailOrders" class="mt-2 space-y-2"></div>
-                            <div class="mt-10 text-sm font-semibold text-neutral-500">Rincian Pembayaran</div>
-                            <div id="detailPayments" class="mt-2 space-y-2"></div>
                         </div>
+
+                        <div class="flex flex-col">
+                            <div class="text-sm font-semibold text-neutral-500">Rincian Pembayaran</div>
+                            <div id="detailPayments" class="mt-4 space-y-2"></div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -249,6 +247,7 @@
             </div>
         </div>
     </div>
+
 
     <div id="myModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
         <div class="bg-white rounded-lg max-w-[90%] md:max-w-2xl w-full p-6 mx-4 md:mx-0">

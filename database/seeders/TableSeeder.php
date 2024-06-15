@@ -21,7 +21,7 @@ class TableSeeder extends Seeder
             ['name' => 'Table 8', 'capacity' => '4'],
             ['name' => 'Table 9', 'capacity' => '4'],
             ['name' => 'Table 10', 'capacity' => '10'],
-            ['name' => 'Table 11', 'capacity' => '11'],
+            ['name' => 'Table 11', 'capacity' => '10'],
         ];
 
         Table::insert($tables);

@@ -19,10 +19,10 @@
                                 <div class="w-[40%]"><a href="{{ route('products.index') }}">Menu</a></div>
                                 <div class="w-[40%]"><a href="{{ route('orders.create') }}">Reservasi</a></div>
                                 <div class="w-[40%]">
-                                    <a href="#tentangkami">Tentang Kami</a>
+                                    <a href="{{ route('customer.dashboard') }}#tentangkami">Tentang Kami</a>
                                 </div>
                                 <div class="w-[40%]">
-                                    <a href="#kontak">Kontak</a>
+                                    <a href="{{ route('customer.dashboard') }}#kontak">Kontak</a>
                                 </div>
                             </div>
                         </div>
@@ -62,7 +62,8 @@
                                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 ">Reservasi
                                         Saya</a>
                                 </li>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                    style="display: none;">
                                     @csrf
                                 </form>
                                 <li>

@@ -42,6 +42,7 @@
             </div>
 
         </div>
+        
         <div class="container mx-auto ml-auto px-20 ">
             <div class="flex justify-between items-center mt-6 mb-4">
                 <h1 class="text-2xl font-semibold">Menu</h1>

@@ -150,7 +150,7 @@
         </div>
     </div>
 
-    <div id="detailModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div id="detailModal" class=" fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50" hidden>
         <div class="bg-white rounded-lg max-w-[90%] md:max-w-2xl w-full p-6 mx-4 md:mx-0">
             <div class="flex justify-between items-center">
                 <h2 class="text-lg font-semibold text-indigo-700">Rincian Pesanan</h2>
@@ -249,7 +249,7 @@
     </div>
 
 
-    <div id="myModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div id="myModal" class=" fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50" hidden>
         <div class="bg-white rounded-lg max-w-[90%] md:max-w-2xl w-full p-6 mx-4 md:mx-0">
             <div class="flex justify-between items-center">
                 <h2 class="text-lg font-semibold text-indigo-700">Catatan Reservasi</h2>

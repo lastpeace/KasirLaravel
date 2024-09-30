@@ -119,7 +119,7 @@
                                 </div>
 
                             </div>
-                            <div class="bg-black rounded-[50px] w-[504px] w-full">
+                            <div class="bg-black rounded-[50px] w-[504px] ">
                                 <button type="submit"
                                     class="flex justify-center items-center self-center px-16 py-5  font-medium text-white text-center  w-full">
                                     Lanjut Pembayaran

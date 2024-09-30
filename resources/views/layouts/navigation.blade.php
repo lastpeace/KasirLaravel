@@ -80,7 +80,7 @@
         </div>
 
         @auth
-            <div id="profileModal" class="fixed z-10 inset-0 overflow-y-auto hidden flex items-center justify-center">
+            <div id="profileModal" class="fixed z-10 inset-0 overflow-y-auto  flex items-center justify-center" hidden>
                 <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
                 <div
                     class="bg-white rounded-lg overflow-hidden shadow-xl text-center transform transition-all sm:max-w-lg sm:w-full">
